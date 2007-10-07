@@ -1,0 +1,2 @@
+# Sqlfile -> Database map
+plugins.sfGuardPlugin.lib.model.schema.sql=propel
