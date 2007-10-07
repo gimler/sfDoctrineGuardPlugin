@@ -1,0 +1,22 @@
+methods:              [post]
+
+fields:
+  user{username}:
+    required:
+      msg:            Your username is required.
+    sfDoctrineUniqueValidator:
+      class:          sfGuardUser
+      column:         username
+      unique_error:   This username already exists. Please choose another one.
+  user{email_address}:
+    required:
+      msg:            Your e-mail address is required.
+  user{password}:
+    required:
+      msg:            Your password is required.
+  user{password_confirmation}:
+    required:
+      msg:            Your password confirmation is required.
+    sfCompareValidator:
+      check:          user[password]
+      compare_error:  The two passwords do not match

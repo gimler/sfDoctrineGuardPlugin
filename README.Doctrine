@@ -1,0 +1,3 @@
+NOTE: At the present time, sfDoctrine will not properly generate the Base model classes with proper many-to-many support. Be aware of this if you need to regenerate the Base sfGuard model classes.
+
+Reference the following Trac ticket: http://www.symfony-project.com/trac/ticket/1432

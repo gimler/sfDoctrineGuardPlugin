@@ -1,0 +1,185 @@
+<?php include('schemaConfig.php') ?>
+sfGuardUser:
+  tableName: <?php echo $config['user_table']."\n"; ?>
+  columns:
+    id:
+      type: integer
+      size: 4
+      primary: true
+      autoincrement: true
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp  
+    username:
+      type: string
+      size: 128
+      notnull: true
+    algorithm:
+      type: string
+      size: 128
+      default: sha1
+      notnull: true
+    salt:
+      type: string
+      size: 128
+      notnull: true
+    password:
+      type: string
+      size: 128
+      notnull: true
+    last_login:
+      type: timestamp
+      size: null
+    is_active:
+      type: boolean
+      size: null
+      default: 1
+      notnull: true
+    is_super_admin:
+      type: boolean
+      size: null
+      default: 0
+      notnull: true
+
+sfGuardUserGroup:
+  tableName: <?php echo $config['user_group_table']."\n"; ?>
+  columns:
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp    
+    group_id:
+      type: integer
+      size: 4
+      foreignClass: sfGuardGroup
+      foreignReference: id
+      localName: users
+      counterpart: user_id
+      foreignName: sfGuardGroup
+      primary: true
+    user_id:
+      type: integer
+      size: 4
+      foreignClass: sfGuardUser
+      foreignReference: id
+      localName: groups
+      counterpart: group_id
+      foreignName: sfGuardUser
+      primary: true
+
+sfGuardUserPermission:
+  tableName: <?php echo $config['user_permission_table']."\n"; ?>
+  columns:
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp
+    user_id:
+      type: integer
+      size: 4
+      foreignClass: sfGuardUser
+      foreignReference: id
+      localName: permissions
+      counterpart: permission_id
+      foreignName: sfGuardUser
+      primary: true
+    permission_id:
+      type: integer
+      size: 4
+      foreignClass: sfGuardPermission
+      localName: users
+      counterpart: user_id
+      primary: true
+
+sfGuardGroup:
+  tableName: <?php echo $config['group_table']."\n"; ?>
+  columns:
+    id:
+      type: integer
+      size: 4
+      primary: true
+      autoincrement: true
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp
+    name:
+      type: string
+      size: 255
+      notnull: true
+    description:
+      type: string
+      size: 4000
+
+sfGuardGroupPermission:
+  tableName: <?php echo $config['group_permission_table']."\n"; ?>
+  columns:
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp
+    group_id:
+      type: integer
+      size: 4
+      notnull: true
+      foreignClass: sfGuardGroup
+      localName: permissions
+      counterpart: permission_id
+      primary: true
+    permission_id:
+      type: integer
+      size: 4
+      notnull: true
+      foreignClass: sfGuardPermission
+      localName: groups
+      counterpart: group_id
+      primary: true
+
+sfGuardPermission:
+  tableName: <?php echo $config['permission_table']."\n"; ?>
+  columns:
+    id:
+      type: integer
+      size: 4
+      primary: true
+      autoincrement: true
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp    
+    name:
+      type: string
+      size: 255
+      notnull: true
+    description:
+      type: string
+      size: 4000
+
+sfGuardRememberKey:
+  tableName: <?php echo $config['remember_key_table']."\n"; ?>
+  columns:
+    id:
+      type: integer
+      size: 4
+      primary: true
+      autoincrement: true
+    created_at: 
+      type: timestamp
+    updated_at: 
+      type: timestamp
+    user_id:
+      type: integer
+      size: 4
+      primary: true
+      foreignClass: sfGuardUser
+      foreignName: user
+      localName: remember_key
+      cascadeDelete: true
+    remember_key:
+      type: string
+      size: 32
+    ip_address:
+      type: string
+      size: 15
+      primary: true

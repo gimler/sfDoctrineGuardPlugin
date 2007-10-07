@@ -1,0 +1,15 @@
+generator:
+  class:              sfDoctrineAdminGenerator
+  param:
+    model_class:      sfGuardGroup
+    theme:            default
+
+    list:
+      title:          Group list
+      display:        [ =name, description ]
+
+    edit:
+      title:          Edit "%%name%%" group
+      fields:
+        permissions:  { name: Permisssions, type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
+      display:        [ name, description, permissions ]
