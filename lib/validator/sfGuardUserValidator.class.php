@@ -15,7 +15,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfGuardUserValidator.class.php 3109 2006-12-23 07:52:31Z fabien $
  */
-class sfGuardUserValidator extends sfValidator
+class sfGuardUserValidator extends sfValidatorBase
 {
   public function initialize($context, $parameters = null)
   {
