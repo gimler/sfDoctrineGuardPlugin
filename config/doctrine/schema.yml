@@ -25,7 +25,13 @@ sfGuardGroup:
       local: group_id
       foreign: user_id
       type: many
-
+    permissions:
+      class: sfGuardPermission
+      refClass: sfGuardGroupPermission
+      local: group_id
+      foreign: permission_id
+      type: many
+    
 sfGuardGroupPermission:
   tableName: <?php echo $config['group_permission_table']."\n"; ?>
   columns:
@@ -165,6 +171,12 @@ sfGuardPermission:
       local: permission_id
       foreign: user_id
       type: many
+    groups:
+      class: sfGuardGroup
+      refClass: sfGuardGroupPermission
+      local: permission_id
+      foreign: group_id
+      type: many
 
 sfGuardRememberKey:
   tableName: <?php echo $config['remember_key_table']."\n"; ?>
@@ -172,7 +184,7 @@ sfGuardRememberKey:
     id:
       type: integer
       length: 4
-      rimary: true
+      primary: true
       autoincrement: true
     created_at: 
       type: timestamp
