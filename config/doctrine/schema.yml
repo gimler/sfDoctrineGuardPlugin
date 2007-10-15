@@ -162,7 +162,7 @@ sfGuardPermission:
     users:
       class: sfGuardUser
       refClass: sfGuardUserPermission
-      local: permision_id
+      local: permission_id
       foreign: user_id
       type: many
 
