@@ -18,6 +18,13 @@ sfGuardGroup:
     description:
       type: string
       length: 4000
+  relations:
+    users:
+      class: sfGuardUser
+      refClass: sfGuardUserGroup
+      local: group_id
+      foreign: user_id
+      type: many
 
 sfGuardGroupPermission:
   tableName: <?php echo $config['group_permission_table']."\n"; ?>
@@ -89,7 +96,7 @@ sfGuardUser:
     permissions:
       class: sfGuardPermission
       refClass: sfGuardUserPermission
-      local: user_id:
+      local: user_id
       foreign: permission_id
       type: many
 
@@ -104,11 +111,6 @@ sfGuardUserGroup:
       type: integer
       length: 4
       primary: true
-      foreignClass: sfGuardGroup
-      foreignReference: id
-      localName: users
-      counterpart: user_id
-      foreignName: sfGuardGroup
     user_id:
       type: integer
       length: 4
@@ -129,6 +131,13 @@ sfGuardUserPermission:
       type: integer
       length: 4
       primary: true
+  relations:
+    sfGuardUser:
+      local: user_id
+      foreign: id
+    sfGuardPermission:
+      local: permission_id
+      foreign: id
 
 sfGuardPermission:
   tableName: <?php echo $config['permission_table']."\n"; ?>
@@ -149,6 +158,13 @@ sfGuardPermission:
     description:
       type: string
       length: 4000
+  relations:
+    users:
+      class: sfGuardUser
+      refClass: sfGuardUserPermission
+      local: permision_id
+      foreign: user_id
+      type: many
 
 sfGuardRememberKey:
   tableName: <?php echo $config['remember_key_table']."\n"; ?>
@@ -156,7 +172,7 @@ sfGuardRememberKey:
     id:
       type: integer
       length: 4
-      primary: true
+      rimary: true
       autoincrement: true
     created_at: 
       type: timestamp
