@@ -73,6 +73,7 @@ sfGuardUser:
       type: string
       length: 128
       notnull: true
+      unique: true
     algorithm:
       type: string
       length: 128
@@ -215,3 +216,10 @@ sfGuardRememberKey:
       type: string
       length: 15
       primary: true
+  relations:
+    user:
+      class: sfGuardUser
+      local: user_id
+      foreign: id
+      onDelete: cascade
+      type: one
