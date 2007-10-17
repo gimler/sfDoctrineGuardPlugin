@@ -115,7 +115,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
     {
         if ( !$this->user && $id = $this->getAttribute( 'user_id', null, 'sfGuardSecurityUser' ) )
         {
-            $this->user = Doctrine_Query::create()->from('sfGuardUser')->where('id = ?', $id);
+            $this->user = Doctrine_Query::create()->from('sfGuardUser')->where('id = ?', $id)->execute()->getFirst();
 
             if ( !$this->user )
             {
