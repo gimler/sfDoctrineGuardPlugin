@@ -12,4 +12,5 @@ generator:
       title:          Edit "%%name%%" group
       fields:
         permissions:  { name: Permisssions, type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
-      display:        [ name, description, permissions ]
+        users:        { type: doctrine_admin_double_list, params: through_class=sfGuardUserGroup}
+      display:        [ name, description, permissions, users ]
