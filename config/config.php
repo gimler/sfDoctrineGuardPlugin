@@ -1,12 +1,8 @@
 <?php
-/**
- * This is not Symfony 1.1 compatible
- * @todo Find the symfony1.1 way to do sfRouting::getInstance();
- */
-/*
+
 if (sfConfig::get('app_sfGuardPlugin_routes_register', true) && in_array('sfGuardAuth', sfConfig::get('sf_enabled_modules')))
 {
-  $r = sfRouting::getInstance();
+  $r = sfContext::getInstance()->getRouting();
 
   // preprend our routes
   $r->prependRoute('sf_guard_signin', '/login', array('module' => 'sfGuardAuth', 'action' => 'signin'));
@@ -22,4 +18,3 @@ if (sfConfig::get('app_sfGuardPlugin_routes_register', true) && in_array('sfGuar
   $r->prependRoute('sf_guard_register_success', '/register/success', array('module' => 'sfGuardRegister', 'action' => 'register_success'));
   $r->prependRoute('sf_guard_register_complete', '/register/complete/:id', array('module' => 'sfGuardRegister', 'action' => 'register_complete'));
 }
-*/
