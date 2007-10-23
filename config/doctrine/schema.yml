@@ -25,6 +25,7 @@ sfGuardGroup:
       local: group_id
       foreign: user_id
       type: many
+      onDelete: cascade
     permissions:
       class: sfGuardPermission
       refClass: sfGuardGroupPermission
@@ -50,10 +51,12 @@ sfGuardGroupPermission:
       notnull: true
       primary: true
   relations:
-    sfGuardGroup:
+    group:
+      class: sfGuardGroup
       local: group_id
       foreign: id
-    sfGuardPermission:
+    permission:
+      class: sfGuardPermission
       local: permission_id
       foreign: id
 
@@ -130,10 +133,13 @@ sfGuardUserGroup:
       length: 4
       primary: true
   relations:
-    sfGuardUser:
+    user:
+      class: sfGuardUser
       local: user_id
       foreign: id
-    sfGuardGroup:
+      onDelete: cascade
+    group:
+      class: sfGuardGroup
       local: group_id
       foreign: id
 
@@ -153,10 +159,13 @@ sfGuardUserPermission:
       length: 4
       primary: true
   relations:
-    sfGuardUser:
+    user:
+      class: sfGuardUser
       local: user_id
       foreign: id
-    sfGuardPermission:
+      onDelete: cascade
+    permission:
+      class: sfGuardPermission
       local: permission_id
       foreign: id
 
@@ -186,6 +195,7 @@ sfGuardPermission:
       local: permission_id
       foreign: user_id
       type: many
+      onDelete: cascade
     groups:
       class: sfGuardGroup
       refClass: sfGuardGroupPermission
