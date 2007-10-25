@@ -86,8 +86,8 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function hasGroup( $name )
     {
-      $group = sfDoctrine::queryFrom('sfGuardGroup')->where('sfGuardGroup.name = ? AND sfGuardGroup.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
-      
+      $group = Doctrine_Query::create()->from('sfGuardGroup')->where('sfGuardGroup.name = ? AND sfGuardGroup.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
+
       return $group->exists();
     }
 
@@ -106,7 +106,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function hasPermission( $name )
     {
-      $permission = sfDoctrine::queryFrom('sfGuardPermission')->where('sfGuardPermission.name = ? AND sfGuardPermission.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
+      $permission = Doctrine_Query::create()->from('sfGuardPermission')->where('sfGuardPermission.name = ? AND sfGuardPermission.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
       
       return $permission->exists();
     }
@@ -137,8 +137,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function getPermissionNames()
     {
-      $q = new Doctrine_Query();
-      $names = $q->select('p.name')->from('sfGuardPermission p')->where('p.users.id = ?', $this->get('id'))->execute();
+      $names = Doctrine_Query::create()->select('p.name')->from('sfGuardPermission p')->where('p.users.id = ?', $this->get('id'))->execute();
       
       return $names;
     }
