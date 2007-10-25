@@ -1,8 +1,10 @@
 <?php include('schemaConfig.php') ?>
-sfGuardUser:
+---
+sfGuardUser: 
   tableName: <?php echo $config['user_table']."\n"; ?>
-  columns:
-    id:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
@@ -10,92 +12,101 @@ sfGuardUser:
     created_at: 
       type: timestamp
     updated_at: 
-      type: timestamp  
-    username:
+      type: timestamp
+    username: 
       type: string
       size: 128
       notnull: true
-    algorithm:
+    algorithm: 
       type: string
       size: 128
       default: sha1
       notnull: true
-    salt:
+    salt: 
       type: string
       size: 128
       notnull: true
-    password:
+    password: 
       type: string
       size: 128
       notnull: true
-    last_login:
+    last_login: 
       type: timestamp
-      size: null
-    is_active:
+      size: 
+    is_active: 
       type: boolean
-      size: null
+      size: 
       default: 1
       notnull: true
-    is_super_admin:
+    is_super_admin: 
       type: boolean
-      size: null
+      size: 
       default: 0
       notnull: true
-
-sfGuardUserGroup:
+  relations: 
+    permissions:
+      class: sfGuardPermission
+      foreignAlias: users
+      refClass: sfGuardUserPermission
+      local: user_id
+      foreign: permission_id
+    groups:
+      class: sfGuardGroup
+      foreignAlias: users
+      refClass: sfGuardUserGroup
+      local: user_id
+      foreign: group_id
+sfGuardUserGroup: 
   tableName: <?php echo $config['user_group_table']."\n"; ?>
-  columns:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
     created_at: 
       type: timestamp
     updated_at: 
-      type: timestamp    
-    group_id:
+      type: timestamp
+    group_id: 
       type: integer
       size: 4
-      foreignClass: sfGuardGroup
-      foreignReference: id
-      localName: users
-      counterpart: user_id
-      foreignName: sfGuardGroup
       primary: true
-    user_id:
+    user_id: 
       type: integer
       size: 4
-      foreignClass: sfGuardUser
-      foreignReference: id
-      localName: groups
-      counterpart: group_id
-      foreignName: sfGuardUser
       primary: true
-
-sfGuardUserPermission:
+  relations: 
+    sfGuardGroup: 
+      class: sfGuardGroup
+      local: group_id
+    sfGuardUser: 
+      class: sfGuardUser
+      local: user_id
+sfGuardUserPermission: 
   tableName: <?php echo $config['user_permission_table']."\n"; ?>
-  columns:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
     created_at: 
       type: timestamp
     updated_at: 
       type: timestamp
-    user_id:
+    user_id: 
       type: integer
       size: 4
-      foreignClass: sfGuardUser
-      foreignReference: id
-      localName: permissions
-      counterpart: permission_id
-      foreignName: sfGuardUser
       primary: true
-    permission_id:
+    permission_id: 
       type: integer
       size: 4
-      foreignClass: sfGuardPermission
-      localName: users
-      counterpart: user_id
       primary: true
-
-sfGuardGroup:
+  relations: 
+    sfGuardUser: 
+      class: sfGuardUser
+      local: user_id
+    sfGuardPermission: 
+      class: sfGuardPermission
+      local: permission_id
+sfGuardGroup: 
   tableName: <?php echo $config['group_table']."\n"; ?>
-  columns:
-    id:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
@@ -104,42 +115,54 @@ sfGuardGroup:
       type: timestamp
     updated_at: 
       type: timestamp
-    name:
+    name: 
       type: string
       size: 255
       notnull: true
-    description:
+    description: 
       type: string
       size: 4000
-
-sfGuardGroupPermission:
+  relations:
+    permissions:
+      class: sfGuardPermission
+      refClass: sfGuardGroupPermission
+      local: group_id
+      foreign: permission_id
+    users:
+      class: sfGuardUser
+      refClass: sfGuardUserGroup
+      local: group_id
+      foreign: user_id
+sfGuardGroupPermission: 
   tableName: <?php echo $config['group_permission_table']."\n"; ?>
-  columns:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
     created_at: 
       type: timestamp
     updated_at: 
       type: timestamp
-    group_id:
+    group_id: 
       type: integer
       size: 4
       notnull: true
-      foreignClass: sfGuardGroup
-      localName: permissions
-      counterpart: permission_id
       primary: true
-    permission_id:
+    permission_id: 
       type: integer
       size: 4
       notnull: true
-      foreignClass: sfGuardPermission
-      localName: groups
-      counterpart: group_id
       primary: true
-
-sfGuardPermission:
+  relations: 
+    sfGuardGroup: 
+      class: sfGuardGroup
+      local: group_id
+    sfGuardPermission: 
+      class: sfGuardPermission
+      local: permission_id
+sfGuardPermission: 
   tableName: <?php echo $config['permission_table']."\n"; ?>
-  columns:
-    id:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
@@ -147,19 +170,30 @@ sfGuardPermission:
     created_at: 
       type: timestamp
     updated_at: 
-      type: timestamp    
-    name:
+      type: timestamp
+    name: 
       type: string
       size: 255
       notnull: true
-    description:
+    description: 
       type: string
       size: 4000
-
-sfGuardRememberKey:
+  relations:
+    groups:
+      class: sfGuardGroup
+      refClass: sfGuardGroupPermission
+      local: permission_id
+      foreign: group_id
+    users:
+      class: sfGuardUser
+      refClass: sfGuardUserPermission
+      local: permission_id
+      foreign: user_id
+sfGuardRememberKey: 
   tableName: <?php echo $config['remember_key_table']."\n"; ?>
-  columns:
-    id:
+  package: sfGuardDoctrinePlugin.lib.model.doctrine
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
@@ -168,18 +202,21 @@ sfGuardRememberKey:
       type: timestamp
     updated_at: 
       type: timestamp
-    user_id:
+    user_id: 
       type: integer
       size: 4
       primary: true
-      foreignClass: sfGuardUser
-      foreignName: user
-      localName: remember_key
-      cascadeDelete: true
-    remember_key:
+    remember_key: 
       type: string
       size: 32
-    ip_address:
+    ip_address: 
       type: string
       size: 15
       primary: true
+  relations: 
+    user: 
+      class: sfGuardUser
+      alias: user
+      foreignAlias: remember_key
+      onDelete: CASCADE
+      local: user_id

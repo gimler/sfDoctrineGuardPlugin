@@ -3,7 +3,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardGroupTable extends Doctrine_Table
+abstract class PluginsfGuardGroupTable extends Doctrine_Table
 {
     public function retrieveByName( $name )
     {

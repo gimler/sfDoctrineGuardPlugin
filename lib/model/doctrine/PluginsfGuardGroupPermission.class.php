@@ -3,7 +3,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardGroupPermission extends BasesfGuardGroupPermission
+abstract class PluginsfGuardGroupPermission extends BasesfGuardGroupPermission
 {
   
 }

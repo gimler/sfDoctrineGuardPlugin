@@ -3,7 +3,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardRememberKey extends BasesfGuardRememberKey
+abstract class PluginsfGuardRememberKey extends BasesfGuardRememberKey
 {
   
 }

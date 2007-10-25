@@ -1,14 +1,13 @@
 <?php
 /*
-/*
  * Plugin class
  *
  */
-class PluginsfGuardUser extends BasesfGuardUser
+abstract class PluginsfGuardUser extends BasesfGuardUser
 {
     protected
         $allPermissions  = null,
-				$groupNames      = null;
+		$groupNames      = null;
 
     public function __toString()
     {
