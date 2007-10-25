@@ -43,7 +43,7 @@ class sfGuardUserValidator extends sfValidatorBase
 
     $username = $value;
 
-    $user = Doctrine_Query::create()->from('sfGuardUser')->where('username=?', $username)->execute()->getFirst();
+    $user = Doctrine::getTable('sfGuardUser')->retrieveByUsername($username);
 
     // user exists?
     if ($user)

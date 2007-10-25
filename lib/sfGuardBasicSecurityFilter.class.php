@@ -23,7 +23,7 @@ class sfGuardBasicSecurityFilter extends sfBasicSecurityFilter
         {
             if ( $cookie = $this->getContext()->getRequest()->getCookie( sfConfig::get( 'app_sf_guard_plugin_remember_cookie_name', 'sfRemember' ) ) )
             {
-                $remember_key = sfDoctrine::queryFrom( 'sfGuardRememberKey' )->where( 'sfGuardRememberKey.remember_key = ?', $cookie )->execute()->getFirst();
+                $remember_key = Doctrine_Query::create()->from( 'sfGuardRememberKey' )->where( 'sfGuardRememberKey.remember_key = ?', $cookie )->execute()->getFirst();
 
                 if ( $remember_key )
                 {
