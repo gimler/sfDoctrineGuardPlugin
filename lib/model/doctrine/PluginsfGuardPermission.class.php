@@ -3,7 +3,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardPermission extends BasesfGuardPermission
+abstract class PluginsfGuardPermission extends BasesfGuardPermission
 {
     public function __toString()
     {

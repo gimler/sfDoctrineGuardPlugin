@@ -4,7 +4,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardUser extends BasesfGuardUser
+abstract class PluginsfGuardUser extends BasesfGuardUser
 {
     protected
         $allPermissions  = null,

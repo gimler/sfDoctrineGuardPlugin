@@ -3,7 +3,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardUserTable extends Doctrine_Table
+abstract class PluginsfGuardUserTable extends Doctrine_Table
 {
   static public function retrieveByUsername( $username, $isActive = true )
   {

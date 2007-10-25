@@ -4,7 +4,7 @@
  * Plugin class
  *
  */
-class PluginsfGuardPermissionTable extends Doctrine_Table
+abstract class PluginsfGuardPermissionTable extends Doctrine_Table
 {
     public function retrieveByName( $name )
     {
