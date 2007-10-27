@@ -74,10 +74,10 @@ sfGuardUserGroup:
       size: 4
       primary: true
   relations:
-    sfGuardGroup:
+    group: 
       class: sfGuardGroup
       local: group_id
-    sfGuardUser:
+    user: 
       class: sfGuardUser
       local: user_id
 
@@ -99,10 +99,10 @@ sfGuardUserPermission:
       size: 4
       primary: true
   relations:
-    sfGuardUser:
+    user: 
       class: sfGuardUser
       local: user_id
-    sfGuardPermission:
+    permission: 
       class: sfGuardPermission
       local: permission_id
 
@@ -159,10 +159,10 @@ sfGuardGroupPermission:
       notnull: true
       primary: true
   relations:
-    sfGuardGroup:
+    group:
       class: sfGuardGroup
       local: group_id
-    sfGuardPermission:
+    permission: 
       class: sfGuardPermission
       local: permission_id
 
