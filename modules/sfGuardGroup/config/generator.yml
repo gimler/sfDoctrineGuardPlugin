@@ -9,8 +9,12 @@ generator:
       display:        [ =name, description ]
 
     edit:
-      title:          Edit "%%name%%" group
+      title:          Edit %%name%% group
       fields:
-        permissions:  { name: Permisssions, type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
-        users:        { type: doctrine_admin_double_list, params: through_class=sfGuardUserGroup}
-      display:        [ name, description, permissions, users ]
+        permissions:   { name: Permisssions, type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
+        users:         { type: doctrine_admin_double_list, params: through_class=sfGuardUserGroup}
+        created_at:    { name: 'Created at', type: plain }
+        updated_at:    { name: 'Updated at', type: plain }
+      display:        
+        "NONE":        [ name, description, permissions, users ]
+        "Information": [ created_at, updated_at ]
