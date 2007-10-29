@@ -7,10 +7,10 @@ generator:
     list:
       title:   User list
       display: [ =username, created_at, last_login ]
-      filters: [ username ]
+      filters: [ username, is_active ]
 
     edit:
-      title:   Edit "%%username%%" user
+      title:   Edit %%username%% user
       fields:
         username:                 { type: input_tag, name: 'Username' }
         password:                 { name: 'Password' }
