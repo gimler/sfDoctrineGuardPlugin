@@ -87,7 +87,14 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       $group = Doctrine_Query::create()->from('sfGuardGroup')->where('sfGuardGroup.name = ? AND sfGuardGroup.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
 
-      return $group->exists();
+      if ($group)
+      {
+        return $group->exists();
+      }
+      else
+      {
+        return false;
+      }
     }
 
     public function getGroupNames()
