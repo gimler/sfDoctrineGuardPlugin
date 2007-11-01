@@ -1,48 +1,50 @@
 <?php include('schemaConfig.php') ?>
 ---
-sfGuardUser:
+sfGuardUser: 
   tableName: <?php echo $config['user_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    id:
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
       autoincrement: true
-    created_at:
+    created_at: 
       type: timestamp
-    updated_at:
+    updated_at: 
       type: timestamp
-    username:
+    username: 
       type: string
       size: 128
       notnull: true
-      unique: true
-    algorithm:
+    algorithm: 
       type: string
       size: 128
       default: sha1
       notnull: true
-    salt:
+    salt: 
       type: string
       size: 128
       notnull: true
-    password:
+    password: 
       type: string
       size: 128
       notnull: true
-    last_login:
+    last_login: 
       type: timestamp
-    is_active:
+      size: 
+    is_active: 
       type: boolean
+      size: 
       default: 1
       notnull: true
-    is_super_admin:
+    is_super_admin: 
       type: boolean
+      size: 
       default: 0
       notnull: true
-  relations:
+  relations: 
     permissions:
       class: sfGuardPermission
       foreignAlias: users
@@ -55,76 +57,77 @@ sfGuardUser:
       refClass: sfGuardUserGroup
       local: user_id
       foreign: group_id
-
-sfGuardUserGroup:
+sfGuardUserGroup: 
   tableName: <?php echo $config['user_group_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    created_at:
+  columns: 
+    created_at: 
       type: timestamp
-    updated_at:
+    updated_at: 
       type: timestamp
-    group_id:
+    group_id: 
       type: integer
       size: 4
       primary: true
-    user_id:
+    user_id: 
       type: integer
       size: 4
       primary: true
-  relations:
-    group: 
+  relations: 
+    sfGuardGroup: 
       class: sfGuardGroup
       local: group_id
-    user: 
+      onDelete: CASCADE
+    sfGuardUser: 
       class: sfGuardUser
       local: user_id
-
-sfGuardUserPermission:
+      onDelete: CASCADE
+sfGuardUserPermission: 
   tableName: <?php echo $config['user_permission_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    created_at:
+  columns: 
+    created_at: 
       type: timestamp
-    updated_at:
+    updated_at: 
       type: timestamp
-    user_id:
+    user_id: 
       type: integer
       size: 4
       primary: true
-    permission_id:
+    permission_id: 
       type: integer
       size: 4
       primary: true
-  relations:
-    user: 
+  relations: 
+    sfGuardUser: 
       class: sfGuardUser
       local: user_id
-    permission: 
+      onDelete: CASCADE
+    sfGuardPermission: 
       class: sfGuardPermission
       local: permission_id
-
-sfGuardGroup:
+      onDelete: CASCADE
+sfGuardGroup: 
   tableName: <?php echo $config['group_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    id:
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
       autoincrement: true
-    created_at:
+    created_at: 
       type: timestamp
-    updated_at:
+    updated_at: 
       type: timestamp
-    name:
+    name: 
       type: string
       size: 255
       notnull: true
-    description:
+    description: 
       type: string
       size: 4000
   relations:
@@ -138,53 +141,47 @@ sfGuardGroup:
       refClass: sfGuardUserGroup
       local: group_id
       foreign: user_id
-
-sfGuardGroupPermission:
+sfGuardGroupPermission: 
   tableName: <?php echo $config['group_permission_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    created_at:
+  columns: 
+    created_at: 
       type: timestamp
-    updated_at:
+    updated_at: 
       type: timestamp
-    group_id:
+    group_id: 
       type: integer
       size: 4
       notnull: true
       primary: true
-    permission_id:
+    permission_id: 
       type: integer
       size: 4
       notnull: true
       primary: true
-  relations:
-    group:
+  relations: 
+    sfGuardGroup: 
       class: sfGuardGroup
       local: group_id
-    permission: 
+    sfGuardPermission: 
       class: sfGuardPermission
       local: permission_id
-
-sfGuardPermission:
+sfGuardPermission: 
   tableName: <?php echo $config['permission_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    id:
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
       autoincrement: true
-    created_at:
-      type: timestamp
-    updated_at:
-      type: timestamp
-    name:
+    name: 
       type: string
       size: 255
       notnull: true
-    description:
+    description: 
       type: string
       size: 4000
   relations:
@@ -198,34 +195,29 @@ sfGuardPermission:
       refClass: sfGuardUserPermission
       local: permission_id
       foreign: user_id
-
-sfGuardRememberKey:
+sfGuardRememberKey: 
   tableName: <?php echo $config['remember_key_table']."\n"; ?>
+  actAs: [Timestampable]
   package: sfGuardDoctrinePlugin.lib.model.doctrine
-  templates: [ Doctrine_Template_Timestampable ]
-  columns:
-    id:
+  columns: 
+    id: 
       type: integer
       size: 4
       primary: true
       autoincrement: true
-    created_at:
-      type: timestamp
-    updated_at:
-      type: timestamp
-    user_id:
+    user_id: 
       type: integer
       size: 4
       primary: true
-    remember_key:
+    remember_key: 
       type: string
       size: 32
-    ip_address:
+    ip_address: 
       type: string
       size: 15
       primary: true
-  relations:
-    user:
+  relations: 
+    user: 
       class: sfGuardUser
       alias: user
       foreignAlias: remember_key
