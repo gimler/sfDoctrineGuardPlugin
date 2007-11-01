@@ -114,7 +114,7 @@ class BasesfGuardRegisterActions extends sfActions
 		$mail->setFrom(sfConfig::get('app_outgoing_emails_from'));
 		$mail->addReplyTo(sfConfig::get('app_outgoing_emails_reply_to'));
 		$mail->addAddress($this->sfGuardUser->getEmailAddress());
-		$mail->setSubject('Request to reset password');
+		$mail->setSubject('Registration Complete');
 		
 		$this->mail = $mail;
 	}

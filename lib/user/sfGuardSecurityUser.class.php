@@ -19,7 +19,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
 {
     protected $user = null;
 
-    public function hasCredential( $credential, $useAnd = true )
+    public function hasCredential($credential, $useAnd = true)
     {
         if ( !$this->getGuardUser() )
         {
@@ -99,27 +99,27 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
 
     public function signOut()
     {
-        $this->getAttributeHolder()->removeNamespace( 'sfGuardSecurityUser' );
+        $this->getAttributeHolder()->removeNamespace('sfGuardSecurityUser');
         $this->user = null;
         $this->clearCredentials();
-        $this->setAuthenticated( false );
-        $expiration_age = sfConfig::get( 'app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600 );
-        $remember_cookie = sfConfig::get( 'app_sf_guard_plugin_remember_cookie_name', 'sfRemember' );
-        sfContext::getInstance()->getResponse()->setCookie( $remember_cookie, '', time() - $expiration_age );
+        $this->setAuthenticated(false);
+        $expiration_age = sfConfig::get('app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600);
+        $remember_cookie = sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember');
+        sfContext::getInstance()->getResponse()->setCookie($remember_cookie, '', time() - $expiration_age);
     }
 
     public function getGuardUser()
     {
-        if ( !$this->user && $id = $this->getAttribute( 'user_id', null, 'sfGuardSecurityUser' ) )
+        if ( ! $this->user && $id = $this->getAttribute('user_id', null, 'sfGuardSecurityUser' ))
         {
-            $this->user = Doctrine::getTable( 'sfGuardUser' )->find ( $id );
+            $this->user = Doctrine::getTable('sfGuardUser')->find($id);
 
-            if ( !$this->user )
+            if ( ! $this->user)
             {
                 // the user does not exist anymore in the database
                 $this->signOut();
 
-                throw new sfException( 'The user does exist anymore in the database.' );
+                throw new sfException('The user does exist anymore in the database.');
             }
         }
 

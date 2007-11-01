@@ -14,70 +14,71 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
       return $this->get('username');
     }
 
-    public function setPassword( $password )
+    public function setPassword($password)
     {
       # FIXME: why is this necessary?
-      if ( !$password )
+      if ( ! $password)
       {
         return $this->get('password');
       }
 
-      $salt = md5( rand( 100000, 999999 ) . $this->get('username') );
+      $salt = md5(rand(100000, 999999) . $this->get('username'));
       $this->set('salt', $salt );
-      $algorithm = sfConfig::get( 'app_sf_guard_plugin_algorithm_callable', 'sha1' );
-      $algorithmAsStr = is_array( $algorithm ) ? $algorithm[ 0 ].'::' . $algorithm[ 1 ] : $algorithm;
+      $algorithm = sfConfig::get('app_sf_guard_plugin_algorithm_callable', 'sha1');
+      $algorithmAsStr = is_array($algorithm) ? $algorithm[0] . '::' . $algorithm[1] : $algorithm;
 
-      if ( !is_callable( $algorithm ) )
+      if ( ! is_callable($algorithm))
       {
         throw new sfException( sprintf( 'The algorithm callable "%s" is not callable.', $algorithmAsStr ) );
       }
 
-      $this->set('algorithm', $algorithmAsStr );
+      $this->set('algorithm', $algorithmAsStr);
 
-      $this->rawSet('password', call_user_func_array( $algorithm, array( $salt . $password ) ));
+      $this->rawSet('password', call_user_func_array( $algorithm, array($salt . $password )));
     }
 
-    public function checkPassword( $password )
+    public function checkPassword($password)
     {
-      if ( $callable = sfConfig::get( 'app_sf_guard_plugin_check_password_callable' ) )
+      if ($callable = sfConfig::get('app_sf_guard_plugin_check_password_callable'))
       {
-        return call_user_func_array( $callable, array( $this->get('username'), $password ) );
+        return call_user_func_array($callable, array($this->get('username'), $password));
       }
       else
       {
         $algorithm = $this->get('algorithm');
-        if ( false !== $pos = strpos( $algorithm, '::' ) )
+        if (false !== $pos = strpos( $algorithm, '::' ))
         {
             $algorithm = array( substr( $algorithm, 0, $pos ), substr( $algorithm, $pos + 2 ) );
         }
-        if ( !is_callable( $algorithm ) )
+
+        if ( ! is_callable($algorithm))
         {
-            throw new sfException( sprintf( 'The algorithm callable "%s" is not callable.', $algorithm ) );
+            throw new sfException(sprintf('The algorithm callable "%s" is not callable.', $algorithm));
         }
 
-        return $this->get('password') == call_user_func_array( $algorithm, array( $this->get('salt') . $password ) );
+        return $this->get('password') == call_user_func_array($algorithm, array($this->get('salt') . $password ));
       }
     }
 
     public function addGroupByName( $name )
     {
-      $group = Doctrine::getTable('sfGuardGroup')->retrieveByName( $name );
+      $group = Doctrine::getTable('sfGuardGroup')->retrieveByName($name);
 
       if ( ! $group)
       {
-        throw new Exception( sprintf( 'The group "%s" does not exist.', $name ) );
+        throw new Exception( sprintf('The group "%s" does not exist.', $name));
       }
 
       $this->get('groups')->add($group);
     }
 
-    public function addPermissionByName( $name )
+    public function addPermissionByName($name)
     {
-      $permission = Doctrine::getTable('sfGuardGroup')->retrieveByName( $name );
+      $permission = Doctrine::getTable('sfGuardGroup')->retrieveByName($name);
       
       if ( ! $permission->exists())
       {
-        throw new Exception( sprintf( 'The permission "%s" does not exist.', $name ) );
+        throw new Exception(sprintf('The permission "%s" does not exist.', $name));
       }
       
       $this->get('permissions')->add($permission);
@@ -126,13 +127,13 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
         {
           foreach ( $group->get('permissions') as $permission )
           {
-              $this->allPermissions[ $permission->getName() ] = $permission->getName();
+              $this->allPermissions[$permission->getName()] = $permission->getName();
           }
         }
 
         foreach( $this->get('permissions') as $permission )
         {
-          $this->allPermissions[ $permission->getName() ] = $permission->getName();
+          $this->allPermissions[$permission->getName()] = $permission->getName();
         }
       }
 
