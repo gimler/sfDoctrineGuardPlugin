@@ -1,1 +1,1 @@
-You have successfully completed your registration.
+You have successfully confirmed your e-mail address.
