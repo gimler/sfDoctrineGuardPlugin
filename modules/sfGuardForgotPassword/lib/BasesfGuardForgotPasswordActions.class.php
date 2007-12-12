@@ -37,7 +37,7 @@ class BasesfGuardForgotPasswordActions extends sfActions
 	 */
 	public function executeRequest_reset_password()
 	{
-		$sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('username_or_email_address'));
+		$sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('username_or_email_address'), false);
 		
 		if( $sfGuardUser && $sfGuardUser->getId() )
 		{
@@ -59,7 +59,7 @@ class BasesfGuardForgotPasswordActions extends sfActions
 	 */
 	public function executeSend_request_reset_password()
 	{
-		$sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('username_or_email_address'));
+		$sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('username_or_email_address'), false);
 		
 		$mail = new sfMail();
 		$mail->setContentType('text/html');
