@@ -16,7 +16,7 @@ class BasesfGuardRegisterActions extends sfActions
   
   public function validateRegister()
   {
-    $this->sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('user[email_address]'));
+    $this->sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('user[email_address]'), false);
     
     if( $this->sfGuardUser )
     {
@@ -86,7 +86,7 @@ class BasesfGuardRegisterActions extends sfActions
   
 	public function executeSend_confirm_registration()
 	{
-		$this->sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('user[username]'));
+		$this->sfGuardUser = sfGuardUserTable::retrieveByUsernameOrEmailAddress($this->getRequestParameter('user[username]'), false);
 		
 		$mail = new sfMail();
 		$mail->setContentType('text/html');
