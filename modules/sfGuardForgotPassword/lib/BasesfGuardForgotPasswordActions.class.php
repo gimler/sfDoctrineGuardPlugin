@@ -102,7 +102,11 @@ class BasesfGuardForgotPasswordActions extends sfActions
 		$query->from('sfGuardUser u')->where('u.password = ? AND u.id = ?', $params)->limit(1);
 		
 		$this->sfGuardUser = $query->execute()->getFirst();
-		$this->forward404Unless($this->sfGuardUser);
+		
+		if ( ! $this->sfGuardUser)
+		{
+		  $this->forward('sfGuardForgotPassword', 'invalid_key');
+		}
 
 		$newPassword = time();
 		$this->sfGuardUser->setPassword($newPassword);
@@ -112,6 +116,11 @@ class BasesfGuardForgotPasswordActions extends sfActions
 		
 		$rawEmail = $this->sendEmail('sfGuardForgotPassword', 'send_reset_password');
 		$this->logMessage($rawEmail, 'debug');
+	}
+	
+	public function executeInvalid_key()
+	{
+	  
 	}
 
 	/**
