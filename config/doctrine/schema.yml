@@ -52,6 +52,7 @@ sfGuardUser:
       refClass: sfGuardUserPermission
       local: user_id
       foreign: permission_id
+
     groups:
       class: sfGuardGroup
       foreignAlias: users
@@ -169,9 +170,11 @@ sfGuardGroupPermission:
     group:
       class: sfGuardGroup
       local: group_id
+      onDelete: CASCADE
     permission: 
       class: sfGuardPermission
       local: permission_id
+      onDelete: CASCADE
 
 sfGuardPermission: 
   tableName: <?php echo $config['permission_table']."\n"; ?>
