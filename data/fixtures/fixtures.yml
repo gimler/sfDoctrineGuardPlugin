@@ -5,22 +5,157 @@ sfGuardUser:
     password:       admin
     is_super_admin: true
 
-sfGuardPermission:
-  adminPermission:
-    name:           admin
-    description:    Administrator permission
-
 sfGuardGroup:
   adminGroup:
     name:           admin
     description:    Administrator group
 
-sfGuardGroupPermission:
-  adminGroupPermission:
-    group:       adminGroup
-    permission:  adminPermission
+sfGuardPermission:
+  adminPermission:
+    name:           admin
+    description:    Administrator permission
+  sfGuardPermission_4: 
+    name: backend_sfGuardUser_list
+    description: |
+      Application: backend
+      Module: sfGuardUser
+      Action: list
+  sfGuardPermission_5: 
+    name: backend_sfGuardUser_create
+    description: |
+      Application: backend
+      Module: sfGuardUser
+      Action: create
+  sfGuardPermission_6: 
+    name: backend_sfGuardUser_delete
+    description: |
+      Application: backend
+      Module: sfGuardUser
+      Action: delete
+  sfGuardPermission_7: 
+    name: backend_sfGuardUser_edit
+    description: |
+      Application: backend
+      Module: sfGuardUser
+      Action: edit
+  sfGuardPermission_8: 
+    name: backend_sfGuardUser_save
+    description: |
+      Application: backend
+      Module: sfGuardUser
+      Action: save
+  sfGuardPermission_9: 
+    name: backend_sfGuardGroup_list
+    description: |
+      Application: backend
+      Module: sfGuardGroup
+      Action: list
+  sfGuardPermission_10: 
+    name: backend_sfGuardGroup_create
+    description: |
+      Application: backend
+      Module: sfGuardGroup
+      Action: create
+  sfGuardPermission_11: 
+    name: backend_sfGuardGroup_delete
+    description: |
+      Application: backend
+      Module: sfGuardGroup
+      Action: delete
+  sfGuardPermission_12: 
+    name: backend_sfGuardGroup_edit
+    description: |
+      Application: backend
+      Module: sfGuardGroup
+      Action: edit
+  sfGuardPermission_13: 
+    name: backend_sfGuardGroup_save
+    description: |
+      Application: backend
+      Module: sfGuardGroup
+      Action: save
+  sfGuardPermission_14: 
+    name: backend_sfGuardPermission_list
+    description: |
+      Application: backend
+      Module: sfGuardPermission
+      Action: list
+  sfGuardPermission_15: 
+    name: backend_sfGuardPermission_create
+    description: |
+      Application: backend
+      Module: sfGuardPermission
+      Action: create
+  sfGuardPermission_16: 
+    name: backend_sfGuardPermission_delete
+    description: |
+      Application: backend
+      Module: sfGuardPermission
+      Action: delete
+  sfGuardPermission_17: 
+    name: backend_sfGuardPermission_edit
+    description: |
+      Application: backend
+      Module: sfGuardPermission
+      Action: edit
+  sfGuardPermission_18: 
+    name: backend_sfGuardPermission_save
+    description: |
+      Application: backend
+      Module: sfGuardPermission
+      Action: save
 
 sfGuardUserGroup:
   adminUserGroup:
     group:       adminGroup
     user:        adminUser
+
+sfGuardGroupPermission:
+  adminGroupPermission:
+    group:       adminGroup
+    permission:  adminPermission
+  sfGuardGroupPermission_1_4: 
+    group: adminGroup
+    permission: sfGuardPermission_4
+  sfGuardGroupPermission_1_5:
+    group: adminGroup
+    permission: sfGuardPermission_5
+  sfGuardGroupPermission_1_6:
+    group: adminGroup
+    permission: sfGuardPermission_6
+  sfGuardGroupPermission_1_7:
+    group: adminGroup
+    permission: sfGuardPermission_7
+  sfGuardGroupPermission_1_8:
+    group: adminGroup
+    permission: sfGuardPermission_8
+  sfGuardGroupPermission_1_9:
+    group: adminGroup
+    permission: sfGuardPermission_9
+  sfGuardGroupPermission_1_10:
+    group: adminGroup
+    permission: sfGuardPermission_10
+  sfGuardGroupPermission_1_11:
+    group: adminGroup
+    permission: sfGuardPermission_11
+  sfGuardGroupPermission_1_12:
+    group: adminGroup
+    permission: sfGuardPermission_12
+  sfGuardGroupPermission_1_13:
+    group: adminGroup
+    permission: sfGuardPermission_13
+  sfGuardGroupPermission_1_14:
+    group: adminGroup
+    permission: sfGuardPermission_14
+  sfGuardGroupPermission_1_15:
+    group: adminGroup
+    permission: sfGuardPermission_15
+  sfGuardGroupPermission_1_16:
+    group: adminGroup
+    permission: sfGuardPermission_16
+  sfGuardGroupPermission_1_17:
+    group: adminGroup
+    permission: sfGuardPermission_17
+  sfGuardGroupPermission_1_18:
+    group: adminGroup
+    permission: sfGuardPermission_18

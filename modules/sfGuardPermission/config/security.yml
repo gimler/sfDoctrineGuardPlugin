@@ -1,0 +1,12 @@
+default:
+  is_secure: on
+list:
+  credentials: [ backend_sfGuardPermission_list ]
+create:
+  credentials: [ backend_sfGuardPermission_create ]
+delete:
+  credentials: [ backend_sfGuardPermission_delete ]
+edit:
+  credentials: [ backend_sfGuardPermission_edit ]
+save:
+  credentials: [ backend_sfGuardPermission_save ]

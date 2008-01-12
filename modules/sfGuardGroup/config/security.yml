@@ -1,0 +1,12 @@
+default:
+  is_secure: on
+list:
+  credentials: [ backend_sfGuardGroup_list ]
+create:
+  credentials: [ backend_sfGuardGroup_create ]
+delete:
+  credentials: [ backend_sfGuardGroup_delete ]
+edit:
+  credentials: [ backend_sfGuardGroup_edit ]
+save:
+  credentials: [ backend_sfGuardGroup_save ]

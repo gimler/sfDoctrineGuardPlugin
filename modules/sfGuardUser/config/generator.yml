@@ -3,11 +3,16 @@ generator:
   param:
     model_class:      sfGuardUser
     theme:            default
-    
+
     list:
       title:   User list
       display: [ =username, created_at, last_login ]
       filters: [ username, is_active ]
+      object_actions:
+          _edit: -
+          _delete: -
+      actions:
+          _create: { name: Add New User }
 
     edit:
       title:   Edit %%username%% user
