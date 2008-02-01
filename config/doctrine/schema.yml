@@ -1,106 +1,35 @@
 <?php include('schemaConfig.php') ?>
-sfGuardGroup:
-  tableName: <?php echo $config['group_table']."\n"; ?>
-  columns:
-    id:
-      type: integer
-      length: 4
-      primary: true
-      autoincrement: true
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp
-    name:
-      type: string
-      length: 255
-      notnull: true
-    description:
-      type: string
-      length: 4000
-  relations:
-    users:
-      class: sfGuardUser
-      refClass: sfGuardUserGroup
-      local: group_id
-      foreign: user_id
-      type: many
-      onDelete: cascade
-    permissions:
-      class: sfGuardPermission
-      refClass: sfGuardGroupPermission
-      local: group_id
-      foreign: permission_id
-      type: many
-    
-sfGuardGroupPermission:
-  tableName: <?php echo $config['group_permission_table']."\n"; ?>
-  columns:
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp
-    group_id:
-      type: integer
-      length: 4
-      notnull: true
-      primary: true
-    permission_id:
-      type: integer
-      length: 4
-      notnull: true
-      primary: true
-  relations:
-    group:
-      class: sfGuardGroup
-      local: group_id
-      foreign: id
-    permission:
-      class: sfGuardPermission
-      local: permission_id
-      foreign: id
-
+---
 sfGuardUser:
   tableName: <?php echo $config['user_table']."\n"; ?>
+  actAs: [Timestampable]
   columns:
     id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
       autoincrement: true
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp  
     username:
-      type: string
-      length: 128
+      type: string(128)
       notnull: true
       unique: true
     algorithm:
-      type: string
-      length: 128
+      type: string(128)
       default: sha1
       notnull: true
     salt:
-      type: string
-      length: 128
+      type: string(128)
       notnull: true
     password:
-      type: string
-      length: 128
+      type: string(128)
       notnull: true
     last_login:
       type: timestamp
-      length: null
     is_active:
       type: boolean
-      length: null
       default: 1
       notnull: true
     is_super_admin:
       type: boolean
-      length: null
       default: 0
       notnull: true
   relations:
@@ -119,18 +48,13 @@ sfGuardUser:
 
 sfGuardUserGroup:
   tableName: <?php echo $config['user_group_table']."\n"; ?>
+  actAs: [Timestampable]
   columns:
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp    
     group_id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
     user_id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
   relations:
     user:
@@ -145,18 +69,13 @@ sfGuardUserGroup:
 
 sfGuardUserPermission:
   tableName: <?php echo $config['user_permission_table']."\n"; ?>
+  actAs: [Timestampable]
   columns:
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp
     user_id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
     permission_id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
   relations:
     user:
@@ -169,25 +88,69 @@ sfGuardUserPermission:
       local: permission_id
       foreign: id
 
-sfGuardPermission:
-  tableName: <?php echo $config['permission_table']."\n"; ?>
+sfGuardGroup:
+  tableName: <?php echo $config['group_table']."\n"; ?>
+  actAs: [Timestampable]
   columns:
     id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
       autoincrement: true
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp    
     name:
-      type: string
-      length: 255
+      type: string(255)
       notnull: true
     description:
-      type: string
-      length: 4000
+      type: string(4000)
+  relations:
+    users:
+      class: sfGuardUser
+      refClass: sfGuardUserGroup
+      local: group_id
+      foreign: user_id
+      type: many
+      onDelete: cascade
+    permissions:
+      class: sfGuardPermission
+      refClass: sfGuardGroupPermission
+      local: group_id
+      foreign: permission_id
+      type: many
+
+sfGuardGroupPermission:
+  tableName: <?php echo $config['group_permission_table']."\n"; ?>
+  actAs: [Timestampable]
+  columns:
+    group_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+    permission_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+  relations:
+    group:
+      class: sfGuardGroup
+      local: group_id
+      foreign: id
+    permission:
+      class: sfGuardPermission
+      local: permission_id
+      foreign: id
+
+sfGuardPermission:
+  tableName: <?php echo $config['permission_table']."\n"; ?>
+  actAs: [Timestampable]
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      notnull: true
+    description:
+      type: string(4000)
   relations:
     users:
       class: sfGuardUser
@@ -205,26 +168,19 @@ sfGuardPermission:
 
 sfGuardRememberKey:
   tableName: <?php echo $config['remember_key_table']."\n"; ?>
+  actAs: [Timestampable]
   columns:
     id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
       autoincrement: true
-    created_at: 
-      type: timestamp
-    updated_at: 
-      type: timestamp
     user_id:
-      type: integer
-      length: 4
+      type: integer(4)
       primary: true
     remember_key:
-      type: string
-      length: 32
+      type: string(32)
     ip_address:
-      type: string
-      length: 15
+      type: string(15)
       primary: true
   relations:
     user:
