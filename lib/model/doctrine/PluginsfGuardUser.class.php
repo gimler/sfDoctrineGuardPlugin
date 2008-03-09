@@ -8,7 +8,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 {
     protected
         $allPermissions  = null,
-				$groupNames      = null;
+        $groupNames      = null;
 
     public function __toString()
     {
@@ -30,14 +30,14 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
       }
       $algorithm = sfConfig::get( 'app_sf_guard_plugin_algorithm_callable', 'sha1' );
       $algorithmAsStr = is_array( $algorithm ) ? $algorithm[ 0 ].'::' . $algorithm[ 1 ] : $algorithm;
-      
+
       if ( !is_callable( $algorithm ) )
       {
         throw new sfException( sprintf( 'The algorithm callable "%s" is not callable.', $algorithmAsStr ) );
       }
-      
+
       $this->set('algorithm', $algorithmAsStr );
-      
+
       $this->rawSet('password', call_user_func_array( $algorithm, array( $salt . $password ) ));
     }
 
@@ -66,24 +66,24 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     public function addGroupByName( $name )
     {
       $group = sfDoctrine::getTable('sfGuardGroup')->retrieveByName( $name );
-      
+
       if ( !$group )
       {
         throw new Exception( sprintf( 'The group "%s" does not exist.', $name ) );
       }
-      
+
       $this->get('groups')->add($group);
     }
 
     public function addPermissionByName( $name )
     {
       $permission = sfDoctrine::getTable('sfGuardGroup')->retrieveByName( $name );
-      
+
       if ( !$permission->exists() )
       {
         throw new Exception( sprintf( 'The permission "%s" does not exist.', $name ) );
       }
-      
+
       $this->get('permissions')->add($permission);
     }
 
@@ -96,21 +96,21 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function getGroupNames()
     {
-			if( !$this->groupNames )
-			{
-			 	foreach($this->get('groups') AS $group)
-				{
-					$this->groupNames[$group->getName()] = $group->getName();
-				}
-			}
+      if( !$this->groupNames )
+      {
+         foreach($this->get('groups') AS $group)
+        {
+          $this->groupNames[$group->getName()] = $group->getName();
+        }
+      }
 
-			return $this->groupNames;
+      return $this->groupNames;
     }
 
     public function hasPermission( $name )
     {
       $permission = Doctrine_Query::create()->from('sfGuardPermission')->where('sfGuardPermission.name = ? AND sfGuardPermission.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
-      
+
       return $permission->exists();
     }
 
@@ -129,10 +129,10 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
           }
         }
 
-				foreach( $this->get('permissions') as $permission )
-				{
-					$this->allPermissions[ $permission->getName() ] = $permission->getName();
-				}
+        foreach( $this->get('permissions') as $permission )
+        {
+          $this->allPermissions[ $permission->getName() ] = $permission->getName();
+        }
       }
 
       return $this->allPermissions;
@@ -141,7 +141,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     public function getPermissionNames()
     {
       $names = Doctrine_Query::create()->select('p.name')->from('sfGuardPermission p')->where('p.users.id = ?', $this->get('id'))->execute();
-      
+
       return $names;
     }
 
@@ -162,34 +162,34 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
       {
         return;
       }
-      
-  		return parent::set($name, $value, $load);
+
+      return parent::set($name, $value, $load);
     }
-    
+
     public function getEmailAddress()
     {
       throw new Exception('Override this function in your sfGuardUser model so it returns the e-mail address for the user');
     }
-    
+
     static public function hasEmailAddress()
     {
       try {
         $sfGuardUser = new sfGuardUser();
         $sfGuardUser->getEmailAddress();
-        
+
         return true;
       } catch(Exception $e) {
         return false;
       }
     }
-    
+
     public function confirm()
     {
-      
+
     }
-    
+
     public function register($userInfo)
     {
-      
+
     }
 }

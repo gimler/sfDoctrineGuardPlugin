@@ -1,28 +1,25 @@
-<?php use_helper('Validation', 'I18N') ?>
+<?php use_helper('I18N') ?>
 
-<?php echo form_tag('@sf_guard_signin') ?>
+<form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" />
   <fieldset>
     <div class="form-row" id="sf_guard_auth_username">
-      <?php echo form_error('username') ?>
-      <label for="username"><?php echo __('username'); ?>:</label>
-      <?php echo input_tag('username', $sf_data->get('sf_params')->get('username'), array('autocomplete' => 'off')) ?>
+      <?php echo $form['username']; ?>
     </div>
 
     <div class="form-row" id="sf_guard_auth_password">
-      <?php echo form_error('password') ?>
-      <label for="password"><?php echo __('password'); ?>:</label>
-      <?php echo input_password_tag('password') ?>
+      <?php echo $form['password']; ?>
     </div>
 
-    <div class="form-row" id="sf_guard_auth_remember">
-	    <label for="remember"><?php echo __('Remember me?'); ?></label>
-	    <?php echo checkbox_tag('remember')?>
-    </div>
+    <?php if(sfConfig::get('sfGuardPlugin_use_remember') ): ?>
+      <div class="form-row" id="sf_guard_auth_remember">
+        <?php echo $form['remember']; ?>
+      </div>
+    <?php endif; ?>
   </fieldset>
 
-  <?php echo submit_tag(__('sign in')) ?>
+  <button type="submit"><?php echo __('sign in') ?></button>
   
-  <?php if( sfGuardUser::hasEmailAddress() ): ?>
+  <?php if(sfConfig::get('sfGuardPlugin_use_account_helpers') ): ?>
     <?php echo link_to(__('Forgot your password?'), '@sf_guard_password', array('id' => 'sf_guard_auth_forgot_password')) ?> or 
     <?php echo link_to(__('Need an account?'), '@sf_guard_register'); ?>
   <?php endif; ?>
