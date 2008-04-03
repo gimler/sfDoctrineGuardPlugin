@@ -37,7 +37,7 @@ class BasesfGuardAuthActions extends sfActions
     {
       if ($this->getRequest()->isXmlHttpRequest())
       {
-        $this->getResponse()->setHheaderOnly(true);
+        $this->getResponse()->setHeaderOnly(true);
         $this->getResponse()->setStatusCode(401);
 
         return sfView::NONE;
