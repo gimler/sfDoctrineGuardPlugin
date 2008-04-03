@@ -19,38 +19,71 @@ class BasesfGuardAuthActions extends sfActions
 {
   public function executeSignin()
   {
-    if ($this->getRequest()->getMethod() != sfRequest::POST)
+    $user = $this->getUser();
+    if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
-      // display the form
-      if (!$this->getUser()->hasAttribute('referer'))
-      {
-        $referer = $this->getContext()->getActionStack()->getSize() == 1 ? $this->getRequest()->getReferer() : $this->getRequest()->getUri();
+      $referer = $user->getAttribute('referer', $this->getRequest()->getReferer());
+      $user->getAttributeHolder()->remove('referer');
 
-        $this->getUser()->setAttribute('referer', $referer);
-      }
+      $signin_url = sfConfig::get('app_sf_guard_plugin_success_signin_url', $referer);
+
+      $this->redirect('' != $signin_url ? $signin_url : '@homepage');
+    }
+    elseif ($user->isAuthenticated())
+    {
+      $this->redirect('@homepage');
     }
     else
     {
-      // handle the form submission
-      // redirect to last page
-      $referer = $this->getUser()->getAttribute('referer', '@homepage');
-      $this->getUser()->getAttributeHolder()->remove('referer');
-      $this->redirect($referer);
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        $this->getResponse()->setHheaderOnly(true);
+        $this->getResponse()->setStatusCode(401);
+
+        return sfView::NONE;
+      }
+
+      if (!$user->hasAttribute('referer'))
+      {
+        $user->setAttribute('referer', $this->getRequest()->getReferer());
+      }
+
+      if ($this->getModuleName() != ($module = sfConfig::get('sf_login_module')))
+      {
+        return $this->redirect($module.'/'.sfConfig::get('sf_login_action'));
+      }
+
+      $this->getResponse()->setStatusCode(401);
     }
   }
-	
-	public function handleErrorSignin()
+
+  public function handleErrorSignin()
   {
+    $user = $this->getUser();
+    if (!$user->hasAttribute('referer'))
+    {
+      $user->setAttribute('referer', $this->getRequest()->getReferer());
+    }
+
+    if ($this->getModuleName() != ($module = sfConfig::get('sf_login_module')))
+    {
+      return $this->redirect($module.'/'.sfConfig::get('sf_login_action'));
+    }
+
     return sfView::SUCCESS;
   }
 
   public function executeSignout()
   {
     $this->getUser()->signOut();
-    $this->redirect('@homepage');
+
+    $signout_url = sfConfig::get('app_sf_guard_plugin_success_signout_url', $this->getRequest()->getReferer());
+
+    $this->redirect('' != $signout_url ? $signout_url : '@homepage');
   }
 
   public function executeSecure()
-	{
-	}
+  {
+    $this->getResponse()->setStatusCode(403);
+  }
 }
