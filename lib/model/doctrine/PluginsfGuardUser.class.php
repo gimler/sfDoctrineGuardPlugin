@@ -116,7 +116,12 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       $permission = Doctrine_Query::create()->from('sfGuardPermission')->where('sfGuardPermission.name = ? AND sfGuardPermission.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
 
-      return $permission->exists();
+      if ($permission)
+      {
+        return $permission->exists();
+      } else {
+        return false;
+      }
     }
 
     // merge of permission in a group + permissions
