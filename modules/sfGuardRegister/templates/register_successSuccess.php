@@ -1,1 +1,0 @@
-Thank you for registering, you must check your e-mail and click the link in the e-mail in order to login.
