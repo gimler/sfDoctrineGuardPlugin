@@ -12,7 +12,7 @@ class BasesfGuardPermissionForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'                             => new sfWidgetFormInputHidden(),
+      'id'                             => new sfWidgetFormInput(),
       'name'                           => new sfWidgetFormInput(),
       'description'                    => new sfWidgetFormInput(),
       'created_at'                     => new sfWidgetFormDateTime(),
@@ -22,7 +22,7 @@ class BasesfGuardPermissionForm extends BaseFormDoctrine
     ));
 
     $this->setValidators(array(
-      'id'                             => new sfValidatorDoctrineChoice(array('model' => 'sfGuardPermission', 'column' => 'id', 'required' => false)),
+      'id'                             => new sfValidatorDoctrineChoice(array('model' => 'sfGuardGroupPermission', 'required' => false)),
       'name'                           => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'description'                    => new sfValidatorString(array('max_length' => 1000, 'required' => false)),
       'created_at'                     => new sfValidatorDateTime(array('required' => false)),

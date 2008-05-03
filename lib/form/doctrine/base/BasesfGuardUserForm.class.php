@@ -12,7 +12,7 @@ class BasesfGuardUserForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'                            => new sfWidgetFormInputHidden(),
+      'id'                            => new sfWidgetFormInput(),
       'username'                      => new sfWidgetFormInput(),
       'algorithm'                     => new sfWidgetFormInput(),
       'salt'                          => new sfWidgetFormInput(),
@@ -20,7 +20,6 @@ class BasesfGuardUserForm extends BaseFormDoctrine
       'is_active'                     => new sfWidgetFormInputCheckbox(),
       'is_super_admin'                => new sfWidgetFormInputCheckbox(),
       'last_login'                    => new sfWidgetFormDateTime(),
-      'email_address'                 => new sfWidgetFormInput(),
       'created_at'                    => new sfWidgetFormDateTime(),
       'updated_at'                    => new sfWidgetFormDateTime(),
       'sf_guard_user_group_list'      => new sfWidgetFormDoctrineSelectMany(array('model' => 'sfGuardGroup')),
@@ -28,7 +27,7 @@ class BasesfGuardUserForm extends BaseFormDoctrine
     ));
 
     $this->setValidators(array(
-      'id'                            => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUser', 'column' => 'id', 'required' => false)),
+      'id'                            => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUserPermission', 'required' => false)),
       'username'                      => new sfValidatorString(array('max_length' => 128, 'required' => false)),
       'algorithm'                     => new sfValidatorString(array('max_length' => 128, 'required' => false)),
       'salt'                          => new sfValidatorString(array('max_length' => 128, 'required' => false)),
@@ -36,7 +35,6 @@ class BasesfGuardUserForm extends BaseFormDoctrine
       'is_active'                     => new sfValidatorBoolean(array('required' => false)),
       'is_super_admin'                => new sfValidatorBoolean(array('required' => false)),
       'last_login'                    => new sfValidatorDateTime(array('required' => false)),
-      'email_address'                 => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'created_at'                    => new sfValidatorDateTime(array('required' => false)),
       'updated_at'                    => new sfValidatorDateTime(array('required' => false)),
       'sf_guard_user_group_list'      => new sfValidatorDoctrineChoiceMany(array('model' => 'sfGuardGroup', 'required' => false)),

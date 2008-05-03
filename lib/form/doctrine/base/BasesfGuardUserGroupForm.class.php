@@ -12,15 +12,15 @@ class BasesfGuardUserGroupForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'user_id'    => new sfWidgetFormInputHidden(),
-      'group_id'   => new sfWidgetFormInputHidden(),
+      'user_id'    => new sfWidgetFormInput(),
+      'group_id'   => new sfWidgetFormInput(),
       'created_at' => new sfWidgetFormDateTime(),
       'updated_at' => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
-      'user_id'    => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUserGroup', 'column' => 'user_id', 'required' => false)),
-      'group_id'   => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUserGroup', 'column' => 'group_id', 'required' => false)),
+      'user_id'    => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUser', 'required' => false)),
+      'group_id'   => new sfValidatorDoctrineChoice(array('model' => 'sfGuardGroup', 'required' => false)),
       'created_at' => new sfValidatorDateTime(array('required' => false)),
       'updated_at' => new sfValidatorDateTime(array('required' => false)),
     ));

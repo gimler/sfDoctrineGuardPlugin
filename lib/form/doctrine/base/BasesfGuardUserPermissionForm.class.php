@@ -12,15 +12,15 @@ class BasesfGuardUserPermissionForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'user_id'       => new sfWidgetFormInputHidden(),
-      'permission_id' => new sfWidgetFormInputHidden(),
+      'user_id'       => new sfWidgetFormInput(),
+      'permission_id' => new sfWidgetFormInput(),
       'created_at'    => new sfWidgetFormDateTime(),
       'updated_at'    => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
-      'user_id'       => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUserPermission', 'column' => 'user_id', 'required' => false)),
-      'permission_id' => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUserPermission', 'column' => 'permission_id', 'required' => false)),
+      'user_id'       => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUser', 'required' => false)),
+      'permission_id' => new sfValidatorDoctrineChoice(array('model' => 'sfGuardPermission', 'required' => false)),
       'created_at'    => new sfValidatorDateTime(array('required' => false)),
       'updated_at'    => new sfValidatorDateTime(array('required' => false)),
     ));

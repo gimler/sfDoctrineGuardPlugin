@@ -12,17 +12,17 @@ class BasesfGuardRememberKeyForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'           => new sfWidgetFormInputHidden(),
-      'user_id'      => new sfWidgetFormInput(),
+      'id'           => new sfWidgetFormInput(),
+      'user_id'      => new sfWidgetFormInput(array('model' => 'sfGuardUser', 'add_empty' => true)),
       'remember_key' => new sfWidgetFormInput(),
-      'ip_address'   => new sfWidgetFormInputHidden(),
+      'ip_address'   => new sfWidgetFormInput(),
       'created_at'   => new sfWidgetFormDateTime(),
       'updated_at'   => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'id'           => new sfValidatorDoctrineChoice(array('model' => 'sfGuardRememberKey', 'column' => 'id', 'required' => false)),
-      'user_id'      => new sfValidatorNumber(array('required' => false)),
+      'user_id'      => new sfValidatorDoctrineChoice(array('model' => 'sfGuardUser', 'required' => false)),
       'remember_key' => new sfValidatorString(array('max_length' => 32, 'required' => false)),
       'ip_address'   => new sfValidatorDoctrineChoice(array('model' => 'sfGuardRememberKey', 'column' => 'ip_address', 'required' => false)),
       'created_at'   => new sfValidatorDateTime(array('required' => false)),
