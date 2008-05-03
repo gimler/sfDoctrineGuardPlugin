@@ -12,7 +12,7 @@ names:
     required_msg: Your password is required
 
 userValidator:
-    class:         sfGuardUserValidator
+    class:         sfGuardValidatorUser
     param:
       password:    password
       remember:    remember
