@@ -56,13 +56,14 @@ EOF;
     $databaseManager = new sfDatabaseManager($configuration);
 
     $user = Doctrine::getTable('sfGuardUser')->findOneByUsername($arguments['username']);
-    $user->setIsSuperAdmin(true);
-    $user->save();
 
     if (!$user)
     {
       throw new sfCommandException(sprintf('User "%s" does not exist.', $arguments['username']));
     }
+
+    $user->setIsSuperAdmin(true);
+    $user->save();
 
     $this->logSection('guard', sprintf('Promote user %s as a super administrator', $arguments['username']));
   }

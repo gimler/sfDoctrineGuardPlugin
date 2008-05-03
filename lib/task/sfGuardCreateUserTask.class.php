@@ -57,6 +57,7 @@ EOF;
     $user = new sfGuardUser();
     $user->setUsername($arguments['username']);
     $user->setPassword($arguments['password']);
+    $user->setIsActive(true);
     $user->save();
 
     $this->logSection('guard', sprintf('Create user "%s"', $arguments['username']));

@@ -36,7 +36,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     }
     $this->setAlgorithm($algorithmAsStr);
 
-    parent::rawSet(call_user_func_array($algorithm, array($salt.$password)));
+    parent::rawSet('password', call_user_func_array($algorithm, array($salt.$password)));
   }
 
   public function setPasswordBis($password)
