@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the symfony package.
- * ( c ) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -10,119 +10,222 @@
 
 /**
  *
- * @package        symfony
+ * @package    symfony
  * @subpackage plugin
- * @author         Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version        SVN: $Id: sfGuardSecurityUser.class.php 3187 2007-01-08 10:51:03Z fabien $
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id: sfGuardSecurityUser.class.php 7745 2008-03-05 11:05:33Z fabien $
  */
 class sfGuardSecurityUser extends sfBasicSecurityUser
 {
-    protected $user = null;
+  private $user = null;
 
-    public function hasCredential( $credential, $useAnd = true )
+  public function getReferer($default)
+  {
+    $referer = $this->getAttribute('referer', $default);
+    $this->getAttributeHolder()->remove('referer');
+
+    return $referer;
+  }
+
+  public function setReferer($referer)
+  {
+    if (!$this->hasAttribute('referer'))
     {
-        if ( !$this->getGuardUser() )
-        {
-            return false;
-        }
+      $this->setAttribute('referer', $referer);
+    }
+  }
 
-        if ( $this->getGuardUser()->getIsSuperAdmin() )
-        {
-            return true;
-        }
-
-        return parent::hasCredential( $credential, $useAnd );
+  public function hasCredential($credential, $useAnd = true)
+  {
+    if (!$this->getGuardUser())
+    {
+      return false;
     }
 
-    public function getUsername()
+    if ($this->getGuardUser()->getIsSuperAdmin())
     {
-        return $this->getAttribute('username', null, 'sfGuardSecurityUser');
+      return true;
     }
 
-    public function isAnonymous()
+    return parent::hasCredential($credential, $useAnd);
+  }
+
+  public function isSuperAdmin()
+  {
+    return $this->getGuardUser()->getIsSuperAdmin();
+  }
+
+  public function isAnonymous()
+  {
+    return !$this->isAuthenticated();
+  }
+
+  public function signIn($user, $remember = false, $con = null)
+  {
+    // signin
+    $this->setAttribute('user_id', $user->getId(), 'sfGuardSecurityUser');
+    $this->setAuthenticated(true);
+    $this->clearCredentials();
+    $this->addCredentials($user->getAllPermissionNames());
+
+    // save last login
+    $user->setLastLogin(date('Y-m-d h:i:s'));
+    $user->save($con);
+
+    // remember?
+    if ($remember)
     {
-        return $this->getAttribute( 'user_id', null, 'sfGuardSecurityUser' ) ? false : true;
+      // remove old keys
+      Doctrine_Query::create()
+        ->delete()
+        ->from('sfGuardRememberKey k')
+        ->where('created_at < ?', time() - $expiration_age)
+        ->execute();
+
+      // remove other keys from this user
+      Doctrine_Query::create()
+        ->delete()
+        ->from('sfGuardRememberKey k')
+        ->where('k.user_id = ?', $user->getId())
+        ->execute();
+
+      // generate new keys
+      $key = $this->generateRandomKey();
+
+      // save key
+      $rk = new sfGuardRememberKey();
+      $rk->setRememberKey($key);
+      $rk->setSfGuardUser($user);
+      $rk->setIpAddress($_SERVER['REMOTE_ADDR']);
+      $rk->save($con);
+
+      // make key as a cookie
+      $remember_cookie = sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember');
+      sfContext::getInstance()->getResponse()->setCookie($remember_cookie, $key, time() + $expiration_age);
+    }
+  }
+
+  protected function generateRandomKey($len = 20)
+  {
+    $string = '';
+    $pool   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    for ($i = 1; $i <= $len; $i++)
+    {
+      $string .= substr($pool, rand(0, 61), 1);
     }
 
-    public function signIn( $user, $remember = false )
+    return md5($string);
+  }
+
+  public function signOut()
+  {
+    $this->getAttributeHolder()->removeNamespace('sfGuardSecurityUser');
+    $this->user = null;
+    $this->clearCredentials();
+    $this->setAuthenticated(false);
+    $expiration_age = sfConfig::get('app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600);
+    $remember_cookie = sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember');
+    sfContext::getInstance()->getResponse()->setCookie($remember_cookie, '', time() - $expiration_age);
+  }
+
+  public function getGuardUser()
+  {
+    if (!$this->user && $id = $this->getAttribute('user_id', null, 'sfGuardSecurityUser'))
     {
-        // signin
-        $this->setAttribute( 'user_id', $user->get('id'), 'sfGuardSecurityUser' );
-        $this->setAttribute( 'username', $user->get('username'), 'sfGuardSecurityUser' );
-        $this->setAuthenticated( true );
-        $this->clearCredentials();
-        $this->addCredentials( $user->getAllPermissionNames() );
+      $this->user = Doctrine::getTable('sfGuardUser')->find($id);
 
-        // Get a new date formatter
-        $dateFormat = new sfDateFormat();
+      if (!$this->user)
+      {
+        // the user does not exist anymore in the database
+        $this->signOut();
 
-        // save last login
-        $current_time_value = $dateFormat->format( time(), 'I' );
-        $user->set('last_login', $current_time_value );
-        $user->save();
-
-        // remember?
-        if ( $remember )
-        {
-            // remove old keys and keys from this user
-            $expiration_age = sfConfig::get( 'app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600 );
-            $expiration_time_value = $dateFormat->format( time() - $expiration_age, 'I' );
-            Doctrine_Query::create()->delete()->from('sfGuardRememberKey r')->where( 'r.created_at < ? OR r.user_id = ?', array( $expiration_time_value, $user->getId() ) )->execute();
-
-            // generate new keys
-            $key = $this->generateRandomKey();
-
-            // save key
-            $rk = new sfGuardRememberKey();
-            $rk->set('remember_key', $key );
-            $rk->set('user', $user);
-            $rk->set('ip_address', $_SERVER[ 'REMOTE_ADDR' ] );
-            $rk->save();
-
-            // make key as a cookie
-            $remember_cookie = sfConfig::get( 'app_sf_guard_plugin_remember_cookie_name', 'sfRemember' );
-            sfContext::getInstance()->getResponse()->setCookie( $remember_cookie, $key, time() + $expiration_age );
-        }
+        throw new sfException('The user does exist anymore in the database.');
+      }
     }
 
-    protected function generateRandomKey( $len = 20 )
-    {
-        $string = '';
-        $pool = 'abcdefghijklmnopqrstuvwzyzABCDEFGHIJKLMNOPQRSTUVWZYZ0123456789';
-        for ( $i = 1; $i <= $len; $i++ )
-        {
-            $string .= substr( $pool, rand( 0, 61 ), 1 );
-        }
+    return $this->user;
+  }
 
-        return md5( $string );
-    }
+  // add some proxy method to the sfGuardUser instance
 
-    public function signOut()
-    {
-        $this->getAttributeHolder()->removeNamespace( 'sfGuardSecurityUser' );
-        $this->user = null;
-        $this->clearCredentials();
-        $this->setAuthenticated( false );
-        $expiration_age = sfConfig::get( 'app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600 );
-        $remember_cookie = sfConfig::get( 'app_sf_guard_plugin_remember_cookie_name', 'sfRemember' );
-        sfContext::getInstance()->getResponse()->setCookie( $remember_cookie, '', time() - $expiration_age );
-    }
+  public function __toString()
+  {
+    return $this->getGuardUser()->__toString();
+  }
 
-    public function getGuardUser()
-    {
-        if ( !$this->user && $id = $this->getAttribute( 'user_id', null, 'sfGuardSecurityUser' ) )
-        {
-            $this->user = Doctrine_Query::create()->from('sfGuardUser')->where('id = ?', $id)->execute()->getFirst();
+  public function getUsername()
+  {
+    return $this->getGuardUser()->getUsername();
+  }
 
-            if ( !$this->user )
-            {
-                // the user does not exist anymore in the database
-                $this->signOut();
+  public function getEmail()
+  {
+    return $this->getGuardUser()->getEmail();
+  }
 
-                throw new sfException( 'The user does exist anymore in the database.' );
-            }
-        }
+  public function setPassword($password, $con = null)
+  {
+    $this->getGuardUser()->setPassword($password);
+    $this->getGuardUser()->save($con);
+  }
 
-        return $this->user;
-    }
+  public function checkPassword($password)
+  {
+    return $this->getGuardUser()->checkPassword($password);
+  }
+
+  public function hasGroup($name)
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->hasGroup($name) : false;
+  }
+
+  public function getGroups()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getGroups() : array();
+  }
+
+  public function getGroupNames()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getGroupNames() : array();
+  }
+
+  public function hasPermission($name)
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->hasPermission($name) : false;
+  }
+
+  public function getPermissions()
+  {
+    return $this->getGuardUser()->getPermissions();
+  }
+
+  public function getPermissionNames()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getPermissionNames() : array();
+  }
+
+  public function getAllPermissions()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getAllPermissions() : array();
+  }
+
+  public function getAllPermissionNames()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getAllPermissionNames() : array();
+  }
+
+  public function getProfile()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getProfile() : null;
+  }
+
+  public function addGroupByName($name, $con = null)
+  {
+    return $this->getGuardUser()->addGroupByName($name, $con);
+  }
+
+  public function addPermissionByName($name, $con = null)
+  {
+    return $this->getGuardUser()->addPermissionByName($name, $con);
+  }
 }

@@ -1,7 +1,8 @@
-<?php use_helper('Validation') ?>
+<form action="<?php echo url_for('@sf_guard_signin') ?>" method="post" />
+  <table>
+    <?php echo $form ?>
+  </table>
 
-<div id="sf_guard_auth_form">
-  <?php echo get_partial('signin_header'); ?>
-  <?php echo get_partial('signin_form'); ?>
-  <?php echo get_partial('signin_footer'); ?>
-</div>
+  <input type="submit" value="sign in" />
+  <a href="<?php echo url_for('@sf_guard_password') ?>">Forgot your password?</a>
+</form>

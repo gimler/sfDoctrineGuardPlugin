@@ -5,23 +5,20 @@ generator:
     theme:            default
     
     list:
-      title:   User list
-      display: [ =username, created_at, last_login ]
-      filters: [ username, is_active ]
+      title:          User list
+      display:        [ =username, created_at, last_login ]
+      filters:        [ username ]
 
+        
     edit:
-      title:   Edit %%username%% user
+      title:          Edit "%%username%%" user
       fields:
-        username:                 { type: input_tag, name: 'Username' }
-        password:                 { name: 'Password' }
-        password_bis:             { name: 'Password (again)' }
-        groups:                   { name: 'Groups/Roles', type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
-        permissions:              { name: 'Permissions', type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
-        last_login:               { name: 'Last Login', type: plain }
-        created_at:               { name: 'Created at', type: plain }
-        updated_at:               { name: 'Updated at', type: plain }
-        is_active:                { type: checkbox_tag, name: 'Active?' }
+        password:
+        password_bis:
+        Groups:       { name: Groups/Roles, type: doctrine_admin_double_list, params: through_class=sfGuardUserGroup }
+        Permissions:  { name: Permissions, type: doctrine_admin_check_list, params: through_class=sfGuardUserPermission }
+        last_login:   { type: plain }
       display:
         "NONE":                   [ username, _password, _password_bis ]
-        "Information":            [ last_login, created_at, updated_at ]
-        "Permissions and Groups": [ is_active, groups, permissions ]
+        "Information":            [ last_login ]
+        "Permissions and groups": [ is_active, Groups, Permissions ]

@@ -9,11 +9,5 @@ generator:
       display:        [=name, description]
 
     edit:
-      title:           Edit %%name%% permission
-      fields:
-        groups:        { name: Groups, type: doctrine_admin_check_list, params: associated_label=Assigned unassociated_label=Available }
-        created_at:    { name: 'Created at', type: plain }
-        updated_at:    { name: 'Updated at', type: plain }
-      display:        
-        "NONE":        [ name, description, groups ]
-        "Information": [ created_at, updated_at ]
+      title:          Edit "%%name%%" permission
+      display:        [name, description]

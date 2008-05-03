@@ -13,44 +13,71 @@
  * @package    symfony
  * @subpackage plugin
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: BasesfGuardAuthActions.class.php 1949 2006-09-05 14:40:20Z fabien $
+ * @version    SVN: $Id: BasesfGuardAuthActions.class.php 7745 2008-03-05 11:05:33Z fabien $
  */
 class BasesfGuardAuthActions extends sfActions
 {
-  public function executeSignin()
+  public function executeSignin($request)
   {
-    if ($this->getRequest()->getMethod() != sfRequest::POST)
+    $user = $this->getUser();
+    if ($user->isAuthenticated())
     {
-      // display the form
-      if (!$this->getUser()->hasAttribute('referer'))
-      {
-        $referer = $this->getContext()->getActionStack()->getSize() == 1 ? $this->getRequest()->getReferer() : $this->getRequest()->getUri();
+      return $this->redirect('@homepage');
+    }
 
-        $this->getUser()->setAttribute('referer', $referer);
+    $this->form = new sfGuardFormSignin();
+
+    if ($request->isMethod('post'))
+    {
+      $this->form->bind($request->getParameter('signin'));
+      if ($this->form->isValid())
+      {
+        $values = $this->form->getValues();
+        $this->getUser()->signin($values['user']);
+
+        $signinUrl = sfConfig::get('app_sf_guard_plugin_success_signinUrl', $user->getReferer($request->getReferer()));
+
+        return $this->redirect('' != $signinUrl ? $signinUrl : '@homepage');
       }
     }
     else
     {
-      // handle the form submission
-      // redirect to last page
-      $referer = $this->getUser()->getAttribute('referer', '@homepage');
-      $this->getUser()->getAttributeHolder()->remove('referer');
-      $this->redirect($referer);
+      if ($request->isXmlHttpRequest())
+      {
+        $this->getResponse()->setHeaderOnly(true);
+        $this->getResponse()->setStatusCode(401);
+
+        return sfView::NONE;
+      }
+
+      $user->setReferer($request->getReferer());
+
+      $module = sfConfig::get('sf_login_module');
+      if ($this->getModuleName() != $module)
+      {
+        return $this->redirect($module.'/'.sfConfig::get('sf_login_action'));
+      }
+
+      $this->getResponse()->setStatusCode(401);
     }
   }
-	
-	public function handleErrorSignin()
-  {
-    return sfView::SUCCESS;
-  }
 
-  public function executeSignout()
+  public function executeSignout($request)
   {
     $this->getUser()->signOut();
-    $this->redirect('@homepage');
+
+    $signout_url = sfConfig::get('app_sf_guard_plugin_success_signout_url', $request->getReferer());
+
+    $this->redirect('' != $signout_url ? $signout_url : '@homepage');
   }
 
   public function executeSecure()
-	{
-	}
+  {
+    $this->getResponse()->setStatusCode(403);
+  }
+
+  public function executePassword()
+  {
+    throw new sfException('This method is not yet implemented.');
+  }
 }

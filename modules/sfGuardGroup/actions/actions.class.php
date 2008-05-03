@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage plugin
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: actions.class.php 1949 2006-09-05 14:40:20Z fabien $
+ * @version    SVN: $Id: actions.class.php 7634 2008-02-27 18:01:40Z fabien $
  */
 class sfGuardGroupActions extends autosfGuardGroupActions
 {

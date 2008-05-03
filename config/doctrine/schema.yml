@@ -1,74 +1,97 @@
-<?php include('schemaConfig.php') ?>
----
-sfGuardUser:
-  tableName: <?php echo $config['user_table']."\n"; ?>
+sfGuardGroup:
   actAs: [Timestampable]
   columns:
     id:
       type: integer(4)
       primary: true
       autoincrement: true
-    username:
-      type: string(128)
-      notnull: true
+    name:
+      type: string(255)
       unique: true
+    description: string(1000)
+  relations:
+    Users:
+      class: sfGuardUser
+      refClass: sfGuardUserGroup
+      local: group_id
+      foreign: user_id
+      foreignAlias: Groups
+    Permissions:
+      class: sfGuardPermission
+      local: group_id
+      foreign: permission_id
+      refClass: sfGuardGroupPermission
+      foreignAlias: Groups
+
+sfGuardPermission:
+  actAs: [Timestampable]
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      unique: true
+    description: string(1000)
+
+sfGuardGroupPermission:
+  actAs: [Timestampable]
+  columns:
+    group_id:
+      type: integer(4)
+      primary: true
+    permission_id:
+      type: integer(4)
+      primary: true
+  relations:
+    Group:
+      local: group_id
+      class: sfGuardGroup
+      foreignType: one
+      onDelete: CASCADE
+    Permission:
+      local: permission_id
+      class: sfGuardPermission
+      foreignType: one
+      onDelete: CASCADE
+
+sfGuardUser:
+  actAs: [Timestampable]
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    username: string(128)
     algorithm:
       type: string(128)
-      default: sha1
-      notnull: true
-    salt:
-      type: string(128)
-      notnull: true
-    password:
-      type: string(128)
-      notnull: true
-    last_login:
-      type: timestamp
+      unique: true
+    salt: string(128)
+    password: string(128)
     is_active:
       type: boolean
       default: 1
-      notnull: true
     is_super_admin:
       type: boolean
       default: 0
-      notnull: true
+    last_login:
+      type: timestamp
   relations:
-    groups:
+    Groups:
       class: sfGuardGroup
-      refClass: sfGuardUserGroup
       local: user_id
       foreign: group_id
-      type: many
-    permissions:
+      refClass: sfGuardUserGroup
+      foreignAlias: Users
+    Permissions:
       class: sfGuardPermission
-      refClass: sfGuardUserPermission
       local: user_id
       foreign: permission_id
-      type: many
-
-sfGuardUserGroup:
-  tableName: <?php echo $config['user_group_table']."\n"; ?>
-  actAs: [Timestampable]
-  columns:
-    group_id:
-      type: integer(4)
-      primary: true
-    user_id:
-      type: integer(4)
-      primary: true
-  relations:
-    user:
-      class: sfGuardUser
-      local: user_id
-      foreign: id
-      onDelete: cascade
-    group:
-      class: sfGuardGroup
-      local: group_id
-      foreign: id
+      refClass: sfGuardUserPermission
+      foreignAlias: Users
 
 sfGuardUserPermission:
-  tableName: <?php echo $config['user_permission_table']."\n"; ?>
   actAs: [Timestampable]
   columns:
     user_id:
@@ -78,96 +101,39 @@ sfGuardUserPermission:
       type: integer(4)
       primary: true
   relations:
-    user:
-      class: sfGuardUser
+    User:
       local: user_id
-      foreign: id
-      onDelete: cascade
-    permission:
-      class: sfGuardPermission
+      class: sfGuardUser
+      foreignType: one
+      onDelete: CASCADE
+    Permission:
       local: permission_id
-      foreign: id
+      class: sfGuardPermission
+      foreignType: one
+      onDelete: CASCADE
 
-sfGuardGroup:
-  tableName: <?php echo $config['group_table']."\n"; ?>
+sfGuardUserGroup:
   actAs: [Timestampable]
   columns:
-    id:
+    user_id:
       type: integer(4)
       primary: true
-      autoincrement: true
-    name:
-      type: string(255)
-      notnull: true
-    description:
-      type: string(4000)
-  relations:
-    users:
-      class: sfGuardUser
-      refClass: sfGuardUserGroup
-      local: group_id
-      foreign: user_id
-      type: many
-      onDelete: cascade
-    permissions:
-      class: sfGuardPermission
-      refClass: sfGuardGroupPermission
-      local: group_id
-      foreign: permission_id
-      type: many
-
-sfGuardGroupPermission:
-  tableName: <?php echo $config['group_permission_table']."\n"; ?>
-  actAs: [Timestampable]
-  columns:
     group_id:
       type: integer(4)
-      notnull: true
-      primary: true
-    permission_id:
-      type: integer(4)
-      notnull: true
       primary: true
   relations:
-    group:
-      class: sfGuardGroup
-      local: group_id
-      foreign: id
-    permission:
-      class: sfGuardPermission
-      local: permission_id
-      foreign: id
-
-sfGuardPermission:
-  tableName: <?php echo $config['permission_table']."\n"; ?>
-  actAs: [Timestampable]
-  columns:
-    id:
-      type: integer(4)
-      primary: true
-      autoincrement: true
-    name:
-      type: string(255)
-      notnull: true
-    description:
-      type: string(4000)
-  relations:
-    users:
+    User:
+      local: user_id
       class: sfGuardUser
-      refClass: sfGuardUserPermission
-      local: permission_id
-      foreign: user_id
-      type: many
-      onDelete: cascade
-    groups:
+      foreignType: one
+      onDelete: CASCADE
+    Group:
+      local: group_id
       class: sfGuardGroup
-      refClass: sfGuardGroupPermission
-      local: permission_id
-      foreign: group_id
-      type: many
+      foreignType: one
+      onDelete: CASCADE
 
 sfGuardRememberKey:
-  tableName: <?php echo $config['remember_key_table']."\n"; ?>
   actAs: [Timestampable]
   columns:
     id:
@@ -176,16 +142,14 @@ sfGuardRememberKey:
       autoincrement: true
     user_id:
       type: integer(4)
-      primary: true
-    remember_key:
-      type: string(32)
+    remember_key: string(32)
     ip_address:
       type: string(15)
       primary: true
   relations:
-    user:
-      class: sfGuardUser
+    User:
       local: user_id
-      foreign: id
-      onDelete: cascade
-      type: one
+      class: sfGuardUser
+      foreignAlias: RememberKeys
+      foreignType: one
+      onDelete: CASCADE
