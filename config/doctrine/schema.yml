@@ -10,13 +10,13 @@ sfGuardGroup:
       unique: true
     description: string(1000)
   relations:
-    Users:
+    users:
       class: sfGuardUser
       refClass: sfGuardUserGroup
       local: group_id
       foreign: user_id
       foreignAlias: Groups
-    Permissions:
+    permissions:
       class: sfGuardPermission
       local: group_id
       foreign: permission_id
@@ -45,14 +45,12 @@ sfGuardGroupPermission:
       type: integer(4)
       primary: true
   relations:
-    Group:
+    sfGuardGroup:
       local: group_id
-      class: sfGuardGroup
       foreignType: one
       onDelete: CASCADE
-    Permission:
+    sfGuardPermission:
       local: permission_id
-      class: sfGuardPermission
       foreignType: one
       onDelete: CASCADE
 
@@ -78,13 +76,13 @@ sfGuardUser:
     last_login:
       type: timestamp
   relations:
-    Groups:
+    groups:
       class: sfGuardGroup
       local: user_id
       foreign: group_id
       refClass: sfGuardUserGroup
       foreignAlias: Users
-    Permissions:
+    permissions:
       class: sfGuardPermission
       local: user_id
       foreign: permission_id
@@ -101,14 +99,12 @@ sfGuardUserPermission:
       type: integer(4)
       primary: true
   relations:
-    User:
+    sfGuardUser:
       local: user_id
-      class: sfGuardUser
       foreignType: one
       onDelete: CASCADE
-    Permission:
+    sfGuardPermission:
       local: permission_id
-      class: sfGuardPermission
       foreignType: one
       onDelete: CASCADE
 
@@ -122,14 +118,12 @@ sfGuardUserGroup:
       type: integer(4)
       primary: true
   relations:
-    User:
+    sfGuardUser:
       local: user_id
-      class: sfGuardUser
       foreignType: one
       onDelete: CASCADE
-    Group:
+    sfGuardGroup:
       local: group_id
-      class: sfGuardGroup
       foreignType: one
       onDelete: CASCADE
 
@@ -147,9 +141,8 @@ sfGuardRememberKey:
       type: string(15)
       primary: true
   relations:
-    User:
+    sfGuardUser:
       local: user_id
-      class: sfGuardUser
       foreignAlias: RememberKeys
       foreignType: one
       onDelete: CASCADE

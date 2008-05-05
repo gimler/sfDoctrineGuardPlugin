@@ -124,7 +124,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     $ug = new sfGuardUserGroup();
     $ug->setsfGuardUser($this);
-    $ug->setGroup($group);
+    $ug->setsfGuardGroup($group);
 
     $ug->save($con);
   }
@@ -139,7 +139,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     $up = new sfGuardUserPermission();
     $up->setsfGuardUser($this);
-    $up->setPermission($permission);
+    $up->sfsfGuardPermission($permission);
 
     $up->save($con);
   }
@@ -162,13 +162,13 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
       $ugs = Doctrine_Query::create()
               ->from('sfGuardUserGroup ug')
-              ->leftJoin('ug.Group g')
+              ->leftJoin('ug.sfGuardGroup g')
               ->where('ug.user_id = ?', $this->getId())
               ->execute();
 
       foreach ($ugs as $ug)
       {
-        $group = $ug->getGroup();
+        $group = $ug->getsfGuardGroup();
         $this->groups[$group->getName()] = $group;
       }
     }
@@ -199,7 +199,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
       $ups = Doctrine_Query::create()
               ->from('sfGuardUserPermission up')
-              ->leftJoin('up.Permission p')
+              ->leftJoin('up.sfGuardPermission p')
               ->where('up.user_id = ?', $this->getId())
               ->execute();
 
@@ -227,10 +227,8 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
       foreach ($this->getGroups() as $group)
       {
-        foreach ($group->getPermissions() as $gp)
+        foreach ($group->getPermissions() as $permission)
         {
-          $permission = $gp->getPermission();
-
           $this->allPermissions[$permission->getName()] = $permission;
         }
       }
