@@ -1,26 +1,25 @@
 sfGuardUser:
-  admin:
+  sgu_admin:
     username:       admin
     password:       admin
     is_super_admin: true
 
 sfGuardPermission:
-  admin:
+  sgp_admin:
     name:           admin
     description:    Administrator permission
 
 sfGuardGroup:
-  admin:
+  sgg_admin:
     name:           admin
     description:    Administrator group
 
 sfGuardGroupPermission:
-  admin:
-    Group:       admin
-    Permission:  admin
+  sggp_admin:
+    sfGuardGroup:       sgg_admin
+    sfGuardPermission:  sgp_admin
 
 sfGuardUserGroup:
-  admin:
-    Group:       admin
-    User:        admin
-
+  sgug_admin:
+    sfGuardGroup:       sgg_admin
+    sfGuardUser:        sgu_admin
