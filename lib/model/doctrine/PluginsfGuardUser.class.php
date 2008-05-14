@@ -139,83 +139,33 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     $up = new sfGuardUserPermission();
     $up->setsfGuardUser($this);
-    $up->sfsfGuardPermission($permission);
+    $up->setsfGuardPermission($permission);
 
     $up->save($con);
   }
 
   public function hasGroup($name)
   {
-    if (!$this->groups)
-    {
-      $this->getGroups();
-    }
-
+    $this->loadGroupsAndPermissions();
     return isset($this->groups[$name]);
-  }
-
-  public function getGroups()
-  {
-    if (!$this->groups)
-    {
-      $this->groups = array();
-
-      $ugs = Doctrine_Query::create()
-              ->from('sfGuardUserGroup ug')
-              ->leftJoin('ug.sfGuardGroup g')
-              ->where('ug.user_id = ?', $this->getId())
-              ->execute();
-
-      foreach ($ugs as $ug)
-      {
-        $group = $ug->getsfGuardGroup();
-        $this->groups[$group->getName()] = $group;
-      }
-    }
-
-    return $this->groups;
   }
 
   public function getGroupNames()
   {
-    return array_keys($this->getGroups());
+    $this->loadGroupsAndPermissions();
+    return array_keys($this->groups);
   }
 
   public function hasPermission($name)
   {
-    if (!$this->permissions)
-    {
-      $this->getPermissions();
-    }
-
+    $this->loadGroupsAndPermissions();
     return isset($this->permissions[$name]);
-  }
-
-  public function getPermissions()
-  {
-    if (!$this->permissions)
-    {
-      $this->permissions = array();
-
-      $ups = Doctrine_Query::create()
-              ->from('sfGuardUserPermission up')
-              ->leftJoin('up.sfGuardPermission p')
-              ->where('up.user_id = ?', $this->getId())
-              ->execute();
-
-      foreach ($ups as $up)
-      {
-        $permission = $up->getPermission();
-        $this->permissions[$permission->getName()] = $permission;
-      }
-    }
-
-    return $this->permissions;
   }
 
   public function getPermissionNames()
   {
-    return array_keys($this->getPermissions());
+    $this->loadGroupsAndPermissions();
+    return array_keys($this->permissions);
   }
 
   // merge of permission in a group + permissions
@@ -242,6 +192,26 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     return array_keys($this->getAllPermissions());
   }
 
+  public function loadGroupsAndPermissions()
+  {
+    $this->getAllPermissions();
+    if (!$this->permissions)
+    {
+      $permissions = $this->getPermissions();
+      foreach ($permissions as $permission)
+      {
+        $this->permissions[$permission->getName()] = $permission;
+      }
+    }
+    if (!$this->groups)
+    {
+      $groups = $this->getGroups();
+      foreach ($groups as $group)
+      {
+        $this->groups[$group->getName()] = $group;
+      }
+    }
+  }
   public function reloadGroupsAndPermissions()
   {
     $this->groups         = null;
