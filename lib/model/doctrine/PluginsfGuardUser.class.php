@@ -173,7 +173,12 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   {
     if (!$this->allPermissions)
     {
-      $this->allPermissions = $this->getPermissions();
+      $this->allPermissions = array();
+      $permissions = $this->getPermissions();
+      foreach ($permissions as $permission)
+      {
+        $this->allPermissions[$permission->getName()] = $permission;
+      }
 
       foreach ($this->getGroups() as $group)
       {
