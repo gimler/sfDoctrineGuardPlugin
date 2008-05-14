@@ -233,7 +233,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
     }
 
-    return parent::delete();
+    return parent::delete($conn);
   }
 
   public function setPasswordHash($v)

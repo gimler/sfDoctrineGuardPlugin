@@ -7,8 +7,8 @@ abstract class PluginsfGuardUserPermission extends BasesfGuardUserPermission
 {
   public function save(Doctrine_Connection $conn = null)
   {
-    parent::save($con);
+    parent::save($conn);
 
-    $this->getsfGuardUser($con)->reloadGroupsAndPermissions();
+    $this->getsfGuardUser($conn)->reloadGroupsAndPermissions();
   }
 }
