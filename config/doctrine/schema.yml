@@ -180,7 +180,7 @@ sfGuardRememberKey:
     remember_key:
       type: string(32)
     ip_address:
-      type: string(15)
+      type: string(50)
       primary: true
   relations:
     user:
