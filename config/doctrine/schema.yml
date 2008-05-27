@@ -61,10 +61,14 @@ sfGuardUser:
       type: integer(4)
       primary: true
       autoincrement: true
-    username: string(128)
+    username:
+      type: string(128)
+      notnull: true
+      unique: true
     algorithm:
       type: string(128)
-      unique: true
+      default: sha1
+      notnull: true
     salt: string(128)
     password: string(128)
     is_active:
