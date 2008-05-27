@@ -55,6 +55,11 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
     return $this->getAttribute('username', null, 'sfGuardSecurityUser');
   }
 
+  public function isSuperAdmin()
+  {
+    return $this->getGuardUser() ? $this->getGuardUser()->getIsSuperAdmin() : false;
+  }
+
   public function isAnonymous()
   {
     return $this->getAttribute( 'user_id', null, 'sfGuardSecurityUser' ) ? false : true;
@@ -135,7 +140,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
         // the user does not exist anymore in the database
         $this->signOut();
 
-        throw new sfException( 'The user does exist anymore in the database.' );
+        throw new sfException( 'The user does not exist anymore in the database.' );
       }
     }
 
