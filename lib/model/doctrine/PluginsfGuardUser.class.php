@@ -45,7 +45,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       if ( $callable = sfConfig::get( 'app_sf_guard_plugin_check_password_callable' ) )
       {
-        return call_user_func_array( $callable, array( $this->get('username'), $password ) $this);
+        return call_user_func_array( $callable, array( $this->get('username'), $password ), $this);
       }
       else
       {
