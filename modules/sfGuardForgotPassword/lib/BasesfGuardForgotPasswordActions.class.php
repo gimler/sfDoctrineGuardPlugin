@@ -122,7 +122,7 @@ class BasesfGuardForgotPasswordActions extends sfActions
 	 */
 	public function executeSend_reset_password()
 	{
-		$sfGuardUser = Doctrine_Manager::getInstance()->getTable('sfGuardUser')->find($this->getRequestParameter('id'));
+		$sfGuardUser = Doctrine::getTable('sfGuardUser')->find($this->getRequestParameter('id'));
 		
 		$mail = new sfMail();
 		$mail->setContentType('text/html');
