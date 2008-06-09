@@ -67,7 +67,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       $group = sfDoctrine::getTable('sfGuardGroup')->retrieveByName( $name );
 
-      if ( !$group )
+      if (!($group instanceof sfGuardGroup && $group->exists()))
       {
         throw new Exception( sprintf( 'The group "%s" does not exist.', $name ) );
       }
@@ -79,7 +79,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       $permission = sfDoctrine::getTable('sfGuardPermission')->retrieveByName( $name );
 
-      if ( !$permission->exists() )
+      if (!($permission instanceof sfGuardPermission && $permission->exists()))
       {
         throw new Exception( sprintf( 'The permission "%s" does not exist.', $name ) );
       }
@@ -91,7 +91,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       $group = Doctrine_Query::create()->from('sfGuardGroup')->where('sfGuardGroup.name = ? AND sfGuardGroup.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
 
-      return $group->exists();
+      return ($group instanceof sfGuardGroup && $group->exists());
     }
 
     public function getGroupNames()
@@ -111,7 +111,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     {
       $permission = Doctrine_Query::create()->from('sfGuardPermission')->where('sfGuardPermission.name = ? AND sfGuardPermission.users.id = ?', array($name, $this->get('id')))->execute()->getFirst();
 
-      return $permission->exists();
+      return ($permission instanceof sfGuardPermission && $permission->exists());
     }
 
     // merge of permission in a group + permissions
