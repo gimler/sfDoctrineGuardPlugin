@@ -77,9 +77,9 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function addPermissionByName( $name )
     {
-      $permission = sfDoctrine::getTable('sfGuardPermission')->retrieveByName( $name );
+      $permission = sfDoctrine::getTable('sfGuardGroup')->retrieveByName( $name );
 
-      if ( !$permission )
+      if ( !$permission->exists() )
       {
         throw new Exception( sprintf( 'The permission "%s" does not exist.', $name ) );
       }
