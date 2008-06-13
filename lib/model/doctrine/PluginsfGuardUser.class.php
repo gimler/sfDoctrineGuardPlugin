@@ -65,7 +65,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function addGroupByName( $name )
     {
-      $group = sfDoctrine::getTable('sfGuardGroup')->retrieveByName( $name );
+      $group = Doctrine::getTable('sfGuardGroup')->retrieveByName( $name );
 
       if (!($group instanceof sfGuardGroup && $group->exists()))
       {
@@ -77,7 +77,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     public function addPermissionByName( $name )
     {
-      $permission = sfDoctrine::getTable('sfGuardPermission')->retrieveByName( $name );
+      $permission = Doctrine::getTable('sfGuardPermission')->retrieveByName( $name );
 
       if (!($permission instanceof sfGuardPermission && $permission->exists()))
       {
