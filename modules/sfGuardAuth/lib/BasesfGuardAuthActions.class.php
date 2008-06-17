@@ -19,7 +19,6 @@ class BasesfGuardAuthActions extends sfActions
 {
   public function executeSignin()
   {
-    die("I'm Here");
     $user = $this->getUser();
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
