@@ -19,6 +19,7 @@ class BasesfGuardAuthActions extends sfActions
 {
   public function executeSignin()
   {
+    die("I'm Here");
     $user = $this->getUser();
     if ($this->getRequest()->getMethod() == sfRequest::POST)
     {
@@ -67,7 +68,7 @@ class BasesfGuardAuthActions extends sfActions
 
     if ($this->getModuleName() != ($module = sfConfig::get('sf_login_module')))
     {
-      return $this->redirect($module.'/'.sfConfig::get('sf_login_action'));
+      $this->forward($module, sfConfig::get('sf_login_action'));
     }
 
     return sfView::SUCCESS;
