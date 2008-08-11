@@ -105,11 +105,9 @@ sfGuardUserPermission:
   relations:
     sfGuardUser:
       local: user_id
-      foreignType: one
       onDelete: CASCADE
     sfGuardPermission:
       local: permission_id
-      foreignType: one
       onDelete: CASCADE
 
 sfGuardUserGroup:
@@ -124,11 +122,9 @@ sfGuardUserGroup:
   relations:
     sfGuardUser:
       local: user_id
-      foreignType: one
       onDelete: CASCADE
     sfGuardGroup:
       local: group_id
-      foreignType: one
       onDelete: CASCADE
 
 sfGuardRememberKey:
