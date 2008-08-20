@@ -47,11 +47,9 @@ sfGuardGroupPermission:
   relations:
     sfGuardGroup:
       local: group_id
-      foreignType: one
       onDelete: CASCADE
     sfGuardPermission:
       local: permission_id
-      foreignType: one
       onDelete: CASCADE
 
 sfGuardUser:
