@@ -1,6 +1,6 @@
 <?php
 
-class sfGuardFormSignin extends sfForm
+class BasesfGuardFormSignin extends sfForm
 {
   public function configure()
   {
