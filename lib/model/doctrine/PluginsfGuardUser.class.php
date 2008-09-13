@@ -70,50 +70,6 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     return $this->getPassword() == call_user_func_array($algorithm, array($this->getSalt().$password));
   }
 
-  public function getProfile()
-  {
-    if (!is_null($this->profile))
-    {
-      return $this->profile;
-    }
-
-    $profileClass = sfConfig::get('app_sf_guard_plugin_profile_class', 'sfGuardUserProfile');
-    if (!class_exists($profileClass))
-    {
-      throw new sfException(sprintf('The user profile class "%s" does not exist.', $profileClass));
-    }
-
-    $fieldName = sfConfig::get('app_sf_guard_plugin_profile_field_name', 'user_id');
-    $profileTableClass =  $profileClass.'Peer';
-
-    $foreignKeyColumn = call_user_func_array(array($profileTableClass, 'translateFieldName'), array($fieldName, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_COLNAME));
-
-    if (!$foreignKeyColumn)
-    {
-      throw new sfException(sprintf('The user profile class "%s" does not contain a "%s" column.', $profileClass, $fieldName));
-    }
-
-    $c = new Criteria();
-    $c->add($foreignKeyColumn, $this->getId());
-
-    $this->profile = call_user_func_array(array($profileClass.'Peer', 'doSelectOne'), array($c));
-
-    if (!$this->profile)
-    {
-      $this->profile = new $profileClass();
-      if (method_exists($this->profile, 'setsfGuardUser'))
-      {
-        $this->profile->setsfGuardUser($this);
-      }
-      else
-      {
-        $this->profile->$fieldName = $this->getId();
-      }
-    }
-
-    return $this->profile;
-  }
-
   public function addGroupByName($name, $con = null)
   {
     $group = Doctrine::getTable('sfGuardGroup')->findOneByName($name);
