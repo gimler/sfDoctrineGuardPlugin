@@ -75,6 +75,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
     // remember?
     if ($remember)
     {
+      $expiration_age = sfConfig::get('app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600);
       // remove old keys
       Doctrine_Query::create()
         ->delete()
