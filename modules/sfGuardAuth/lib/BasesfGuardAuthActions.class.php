@@ -25,7 +25,8 @@ class BasesfGuardAuthActions extends sfActions
       return $this->redirect('@homepage');
     }
 
-    $this->form = new sfGuardFormSignin();
+    $class = sfConfig::get('app_sf_guard_plugin_signin_form', 'sfGuardFormSignin'); 
+    $this->form = new $class();
 
     if ($request->isMethod('post'))
     {
