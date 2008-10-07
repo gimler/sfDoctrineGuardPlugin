@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+include(sfConfig::get('sf_plugins_dir') . '/sfDoctrinePlugin/lib/task/sfDoctrineBaseTask.class.php');
+
 /**
  * Create a new user.
  *
