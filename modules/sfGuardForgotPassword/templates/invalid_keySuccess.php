@@ -1,0 +1,2 @@
+The link you followed is not valid. If you wish to have your password reset please <?php echo link_to('go here', '@sf_guard_password'); ?> and fill out the form 
+and a link to reset your password will be provided. Once your password is reset it will be e-mailed to you.
