@@ -16,7 +16,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfGuardCreateAdminTask.class.php 8637 2008-04-27 10:24:36Z nicolas $
  */
-class sfGuardPromoteSuperAdminTask extends sfPropelBaseTask
+class sfGuardPromoteSuperAdminTask extends sfDoctrineBaseTask
 {
   /**
    * @see sfTask
@@ -30,7 +30,7 @@ class sfGuardPromoteSuperAdminTask extends sfPropelBaseTask
 
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
+      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
     ));
 
     $this->namespace = 'guard';
