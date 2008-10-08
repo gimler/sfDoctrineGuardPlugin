@@ -80,7 +80,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
       Doctrine_Query::create()
         ->delete()
         ->from('sfGuardRememberKey k')
-        ->where('created_at < ?', time() - $expiration_age)
+        ->where('created_at < ?', date('Y-m-d H:i:s', time() - $expiration_age))
         ->execute();
 
       // remove other keys from this user
