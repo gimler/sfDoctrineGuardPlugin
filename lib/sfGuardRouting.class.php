@@ -27,8 +27,8 @@ class sfGuardRouting
     $r = $event->getSubject();
 
     // preprend our routes
-    $r->prependRoute('sf_guard_signin', '/login', array('module' => 'sfGuardAuth', 'action' => 'signin'));
-    $r->prependRoute('sf_guard_signout', '/logout', array('module' => 'sfGuardAuth', 'action' => 'signout'));
-    $r->prependRoute('sf_guard_password', '/request_password', array('module' => 'sfGuardAuth', 'action' => 'password'));
+    $r->prependRoute('sf_guard_signin', new sfRoute('/login', array('module' => 'sfGuardAuth', 'action' => 'signin'))); 
+   	$r->prependRoute('sf_guard_signout', new sfRoute('/logout', array('module' => 'sfGuardAuth', 'action' => 'signout'))); 
+   	$r->prependRoute('sf_guard_password', new sfRoute('/request_password', array('module' => 'sfGuardAuth', 'action' => 'password')));
   }
 }
