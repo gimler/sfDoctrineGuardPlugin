@@ -190,7 +190,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
         $profile->delete();
       }
     }
-    catch (sfException $e)
+    catch (Exception $e)
     {
     }
 
