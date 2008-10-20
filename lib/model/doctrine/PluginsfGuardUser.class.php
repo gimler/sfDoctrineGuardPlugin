@@ -27,7 +27,10 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
         $salt = md5( rand( 100000, 999999 ) . $this->get('username') );
         $this->set('salt', $salt );
       }
-      $algorithm = sfConfig::get('app_sf_guard_plugin_algorithm_callable', 'sha1');
+      if (!$algorithm = $this->getAlgorithm())
+      {
+        $algorithm = sfConfig::get('app_sf_guard_plugin_algorithm_callable', 'sha1');
+      }
       $algorithmAsStr = is_array($algorithm) ? $algorithm[0] . '::' . $algorithm[1] : $algorithm;
 
       if ( ! is_callable($algorithm))
