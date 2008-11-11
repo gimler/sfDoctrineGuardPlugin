@@ -9,6 +9,6 @@ abstract class PluginsfGuardUserPermission extends BasesfGuardUserPermission
   {
     parent::save($conn);
 
-    $this->getsfGuardUser($conn)->reloadGroupsAndPermissions();
+    $this->getsfGuardUser()->reloadGroupsAndPermissions();
   }
 }
