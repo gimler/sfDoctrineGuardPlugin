@@ -39,7 +39,7 @@ class sfGuardRouting
       'model'               => 'sfGuardUser',
       'module'              => 'sfGuardUser',
       'prefix_path'         => 'sf_guard_user',
-      'with_wilcard_routes' => true,
+      'with_wildcard_routes' => true,
       'collection_actions'  => array('filter' => 'post', 'batch' => 'post'),
       'requirements'        => array(),
     )));
@@ -52,7 +52,7 @@ class sfGuardRouting
       'model'               => 'sfGuardGroup',
       'module'              => 'sfGuardGroup',
       'prefix_path'         => 'sf_guard_group',
-      'with_wilcard_routes' => true,
+      'with_wildcard_routes' => true,
       'collection_actions'  => array('filter' => 'post', 'batch' => 'post'),
       'requirements'        => array(),
     )));
@@ -65,7 +65,7 @@ class sfGuardRouting
       'model'               => 'sfGuardPermission',
       'module'              => 'sfGuardPermission',
       'prefix_path'         => 'sf_guard_permission',
-      'with_wilcard_routes' => true,
+      'with_wildcard_routes' => true,
       'collection_actions'  => array('filter' => 'post', 'batch' => 'post'),
       'requirements'        => array(),
     )));
