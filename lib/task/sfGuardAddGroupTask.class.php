@@ -9,14 +9,14 @@
  */
 
 /**
- * Create a new user.
+ * Add a group to a user.
  *
  * @package    symfony
  * @subpackage task
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfGuardCreateUserTask.class.php 8109 2008-03-27 10:40:33Z fabien $
+ * @version    SVN: $Id$
  */
-class sfGuardCreateUserTask extends sfDoctrineBaseTask
+class sfGuardAddGroupTask extends sfDoctrineBaseTask
 {
   /**
    * @see sfTask
@@ -25,7 +25,7 @@ class sfGuardCreateUserTask extends sfDoctrineBaseTask
   {
     $this->addArguments(array(
       new sfCommandArgument('username', sfCommandArgument::REQUIRED, 'The user name'),
-      new sfCommandArgument('password', sfCommandArgument::REQUIRED, 'The password'),
+      new sfCommandArgument('group', sfCommandArgument::REQUIRED, 'The group name'),
     ));
 
     $this->addOptions(array(
@@ -35,13 +35,15 @@ class sfGuardCreateUserTask extends sfDoctrineBaseTask
     ));
 
     $this->namespace = 'guard';
-    $this->name = 'create-user';
-    $this->briefDescription = 'Creates a user';
+    $this->name = 'add-group';
+    $this->briefDescription = 'Adds a group to a user';
 
     $this->detailedDescription = <<<EOF
-The [guard:create-user|INFO] task creates a user:
+The [guard:add-group|INFO] task adds a group to a user:
 
-  [./symfony guard:create-user fabien pa\$\$word|INFO]
+  [./symfony guard:add-group fabien admin|INFO]
+
+The user and the group must exist in the database.
 EOF;
   }
 
@@ -52,12 +54,14 @@ EOF;
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
 
-    $user = new sfGuardUser();
-    $user->setUsername($arguments['username']);
-    $user->setPassword($arguments['password']);
-    $user->setIsActive(true);
-    $user->save();
+    $user = Doctrine::getTable('sfGuardUser')->findOneByUsername($arguments['username']);
+    if (!$user)
+    {
+      throw new sfCommandException(sprintf('User "%s" does not exist.', $arguments['username']));
+    }
 
-    $this->logSection('guard', sprintf('Create user "%s"', $arguments['username']));
+    $user->addGroupByName($arguments['group']);
+
+    $this->logSection('guard', sprintf('Add group %s to user %s', $arguments['group'], $arguments['username']));
   }
 }

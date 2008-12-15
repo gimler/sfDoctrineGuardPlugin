@@ -9,14 +9,14 @@
  */
 
 /**
- * Create a new user.
+ * Add a permission to a user.
  *
  * @package    symfony
  * @subpackage task
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfGuardCreateUserTask.class.php 8109 2008-03-27 10:40:33Z fabien $
+ * @version    SVN: $Id$
  */
-class sfGuardCreateUserTask extends sfDoctrineBaseTask
+class sfGuardAddPermissionTask extends sfDoctrineBaseTask
 {
   /**
    * @see sfTask
@@ -25,7 +25,7 @@ class sfGuardCreateUserTask extends sfDoctrineBaseTask
   {
     $this->addArguments(array(
       new sfCommandArgument('username', sfCommandArgument::REQUIRED, 'The user name'),
-      new sfCommandArgument('password', sfCommandArgument::REQUIRED, 'The password'),
+      new sfCommandArgument('permission', sfCommandArgument::REQUIRED, 'The permission name'),
     ));
 
     $this->addOptions(array(
@@ -35,13 +35,15 @@ class sfGuardCreateUserTask extends sfDoctrineBaseTask
     ));
 
     $this->namespace = 'guard';
-    $this->name = 'create-user';
-    $this->briefDescription = 'Creates a user';
+    $this->name = 'add-permission';
+    $this->briefDescription = 'Adds a permission to a user';
 
     $this->detailedDescription = <<<EOF
-The [guard:create-user|INFO] task creates a user:
+The [guard:add-permission|INFO] task adds a permission to a user:
 
-  [./symfony guard:create-user fabien pa\$\$word|INFO]
+  [./symfony guard:add-permission fabien admin|INFO]
+
+The user and the permission must exist in the database.
 EOF;
   }
 
@@ -52,12 +54,14 @@ EOF;
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
 
-    $user = new sfGuardUser();
-    $user->setUsername($arguments['username']);
-    $user->setPassword($arguments['password']);
-    $user->setIsActive(true);
-    $user->save();
+    $user = Doctrine::getTable('sfGuardUser')->findOneByUsername($arguments['username']);
+    if (!$user)
+    {
+      throw new sfCommandException(sprintf('User "%s" does not exist.', $arguments['username']));
+    }
 
-    $this->logSection('guard', sprintf('Create user "%s"', $arguments['username']));
+    $user->addPermissionByName($arguments['permission']);
+
+    $this->logSection('guard', sprintf('Add permission %s to user %s', $arguments['permission'], $arguments['username']));
   }
 }
