@@ -44,6 +44,10 @@
      <dir name="lib">
        <dir name="form">
          <dir name="doctrine">
+           <dir name="base">
+             <file role="data" name="BasesfGuardFormSignin.class.php" />
+             <file role="data" name="BasesfGuardUserAdminForm.class.php" />
+           </dir>
            <file role="data" name="sfGuardFormSignin.class.php" />
            <file role="data" name="sfGuardUserAdminForm.class.php" />
            <file role="data" name="PluginsfGuardGroupForm.class.php" />
