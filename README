@@ -1,4 +1,4 @@
-# sfGuardDoctrine plugin (for symfony 1.2) #
+# sfDoctrineGuardPlugin (for symfony 1.2) #
 
 The `sfDoctrineGuardPlugin` is a symfony plugin that provides authentication and
 authorization features above the standard security feature of symfony.
@@ -28,7 +28,7 @@ a configurable plugin.
         symfony doctrine-build-all-reload frontend
 
     or you can just create the new tables by using the generated SQL
-    statements in `data/sql/plugins.sfGuardAuth.lib.model.schema.sql`
+    statements in `data/sql/`
 
   * Load default fixtures (optional - it creates a superadmin user)
 
