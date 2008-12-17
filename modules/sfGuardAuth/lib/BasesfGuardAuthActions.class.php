@@ -53,7 +53,7 @@ class BasesfGuardAuthActions extends sfActions
         return sfView::NONE;
       }
 
-      $user->setReferer($request->getReferer());
+      $user->setReferer($this->getContext()->getActionStack()->getSize() > 1 ? $request->getUri() : $request->getReferer());
 
       $module = sfConfig::get('sf_login_module');
       if ($this->getModuleName() != $module)
