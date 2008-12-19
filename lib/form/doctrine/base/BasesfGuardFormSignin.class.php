@@ -2,8 +2,10 @@
 
 class BasesfGuardFormSignin extends sfForm
 {
-  public function configure()
+  public function setup()
   {
+    parent::setup();
+
     $this->setWidgets(array(
       'username' => new sfWidgetFormInput(),
       'password' => new sfWidgetFormInput(array('type' => 'password')),
