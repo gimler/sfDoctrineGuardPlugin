@@ -35,7 +35,7 @@ class sfGuardValidatorUser extends sfValidatorBase
     if ($user = Doctrine::getTable('sfGuardUser')->findOneByUsername($username))
     {
       // password is ok?
-      if ($user->checkPassword($password))
+      if ($user->getIsActive() && $user->checkPassword($password))
       {
         return array_merge($values, array('user' => $user));
       }
