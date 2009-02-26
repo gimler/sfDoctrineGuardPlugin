@@ -118,13 +118,13 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   public function hasPermission($name)
   {
     $this->loadGroupsAndPermissions();
-    return isset($this->permissions[$name]);
+    return isset($this->allPermissions[$name]);
   }
 
   public function getPermissionNames()
   {
     $this->loadGroupsAndPermissions();
-    return array_keys($this->permissions);
+    return array_keys($this->allPermissions);
   }
 
   // merge of permission in a group + permissions
