@@ -65,7 +65,7 @@ sfGuardUser:
       unique: true
     algorithm:
       type: string(128)
-      default: sha1
+      default: <?php echo sfConfig::get('app_sf_guard_plugin_algorithm_callable', 'sha1') ?> 
       notnull: true
     salt: string(128)
     password: string(128)
