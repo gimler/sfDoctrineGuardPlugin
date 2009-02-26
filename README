@@ -213,44 +213,6 @@ directly in the database or use the pake task:
 This validator is used by the `sfGuardAuth` module to validate a user and
 password and automatically signin the user.
 
-## Customize the `sfGuardUser` model ##
-
-The `sfGuardUser` model is quite simple. There is no `email` or `first_name`
-or `birthday` columns. As you cannot add methods to the class, the `sfAuthPlugin`
-gives you the possibility to define a user profile class.
-
-By default, `sfGuardUser` looks for a `sfGuardUserProfile` class.
-
-Here is a simple example of a `sfGuardProfile` class that you can add to `schema.yml`:
-
-    sf_guard_user_profile:
-      _attributes: { phpName: sfGuardUserProfile }
-      id:
-      user_id:     { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onDelete: cascade }
-      first_name:  varchar(20)
-      last_name:   varchar(20)
-      birthday:    date
-
-You can now access the user profile via the user object:
-
-    $this->getUser()->getGuardUser()->getProfile()->getFirstName()
-
-    // or via the proxy method
-    $this->getUser()->getProfile()->getFirstName()
-
-The `getProfile()` method gets the associated user profile object or creates a
-new one if none already exists.
-
-When you delete a user, the associated profile is also deleted.
-
-You can change the name of the user profile class and the foreign key name in
-`app.yml`:
-
-    all:
-      sf_guard_plugin:
-        profile_class:      sfGuardUserProfile
-        profile_field_name: user_id
-
 ## Check the user password with an external method ##
 
 If you don't want to store the password in the database because you already
