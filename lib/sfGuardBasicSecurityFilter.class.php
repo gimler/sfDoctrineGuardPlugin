@@ -2,36 +2,51 @@
 
 /*
  * This file is part of the symfony package.
- * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 /**
- *
+ * Processes the "remember me" cookie.
+ * 
  * @package    symfony
  * @subpackage plugin
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
+ * 
+ * @deprecated Use {@link sfGuardRememberMeFilter} instead
  */
 class sfGuardBasicSecurityFilter extends sfBasicSecurityFilter
 {
   public function execute($filterChain)
   {
-    if ($this->isFirstCall() AND !$this->getContext()->getUser()->isAuthenticated())
-    {
-      if ($cookie = $this->getContext()->getRequest()->getCookie(sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember')))
-      {
-        $remember_key = Doctrine_Query::create()->from('sfGuardRememberKey')->where('sfGuardRememberKey.remember_key = ?', $cookie)->execute()->getFirst();
+    $cookieName = sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember');
 
-        if ($remember_key)
+    if ($this->isFirstCall())
+    {
+      $this->context->getLogger()->notice(sprintf('The filter "%s" is deprecated. Use "sfGuardRememberMeFilter" instead.', __CLASS__));
+
+      if (
+        $this->context->getUser()->isAnonymous()
+        &&
+        $cookie = $this->getContext()->getRequest()->getCookie($cookieName)
+      )
+      {
+        $rk = Doctrine_Query::create()
+                ->from('sfGuardRememberKey')
+                ->where('sfGuardRememberKey.remember_key = ?', $cookie)
+                ->execute()
+                ->getFirst();
+
+        if ($rk)
         {
-          $user = $remember_key->getUser();
+          $user = $rk->getUser();
 
           if ($user instanceof sfGuardUser && $user->exists())
           {
-            $this->getContext()->getUser()->signIn($user);
+            $this->context->getUser()->signIn($user);
           }
         }
       }

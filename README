@@ -41,11 +41,13 @@ a configurable plugin.
     symfony cc
   }}}
 
-  * Optionally enable the "Remember Me" filter in factories.yml 
-  {{{ 
-    all: 
-      security_filter: 
-        class: sfGuardBasicSecurityFilter 
+  * Optionally add the "Remember Me" filter to `filters.yml` above the security filter:
+
+  {{{
+    remember_me:
+      class: sfGuardRememberMeFilter
+
+    security: ~
   }}}
 
 === Secure your application ===
