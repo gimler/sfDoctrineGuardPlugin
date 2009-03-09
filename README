@@ -54,11 +54,14 @@ a configurable plugin.
 
         symfony cc
 
-  * Optionally enable the "Remember Me" filter in `filters.yml`
+  * Optionally add the "Remember Me" filter to `filters.yml` above the security filter:
 
-        security:
-          class: sfGuardBasicSecurityFilter
-    
+        [yml]
+        remember_me:
+          class: sfGuardRememberMeFilter
+
+        security: ~
+
 ### Secure your application ###
 
 To secure a symfony application:
