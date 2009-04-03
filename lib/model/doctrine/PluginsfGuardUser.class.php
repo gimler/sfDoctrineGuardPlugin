@@ -210,7 +210,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
 
     if ($this->password !== $v)
     {
-      $this->password = $v;
+      $this->_set('password', $v);
     }
   }
 }
