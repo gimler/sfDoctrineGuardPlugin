@@ -1,6 +1,6 @@
 # sfGuardDoctrine plugin (for symfony 1.2) #
 
-The `sfGuardPlugin` is a symfony plugin that provides authentication and
+The `sfDoctrineGuardPlugin` is a symfony plugin that provides authentication and
 authorization features above the standard security feature of symfony.
 
 It gives you the model (user, group and permission objects) and the modules
@@ -11,7 +11,7 @@ a configurable plugin.
 
   * Install the plugin
 
-        symfony plugin:install sfGuardPlugin
+        symfony plugin:install sfDoctrineGuardPlugin
     
   * Rebuild your model
 
@@ -123,7 +123,7 @@ To secure a symfony application:
 
 ## Manage your users, permissions and groups ##
 
-To be able to manage your users, permissions and groups, `sfGuardPlugin` comes
+To be able to manage your users, permissions and groups, `sfDoctrineGuardPlugin` comes
 with 3 modules that can be integrated in your backend application.
 These modules are auto-generated thanks to the symfony admin generator.
 
@@ -200,7 +200,7 @@ For example, to get the current username:
 
 ## Super administrator flag ##
 
-`sfGuardPlugin` has a notion of super administrator. A user that is a super
+`sfDoctrineGuardPlugin` has a notion of super administrator. A user that is a super
 administrator bypasses all credential checks.
 
 The super administrator flag cannot be set on the web, you must set the flag
@@ -210,7 +210,7 @@ directly in the database or use the pake task:
 
 ## Validators ##
 
-`sfGuardPlugin` comes with a validator that you can use in your modules:
+`sfDoctrineGuardPlugin` comes with a validator that you can use in your modules:
 `sfGuardUserValidator`.
 
 This validator is used by the `sfGuardAuth` module to validate a user and
