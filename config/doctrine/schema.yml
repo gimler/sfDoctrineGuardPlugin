@@ -74,7 +74,7 @@ sfGuardUser:
       default: 1
     is_super_admin:
       type: boolean
-      default: 0
+      default: false
     last_login:
       type: timestamp
   indexes:
