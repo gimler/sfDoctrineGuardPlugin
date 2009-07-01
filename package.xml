@@ -168,6 +168,22 @@
  <changelog>
    <release>
       <version>
+        <release>3.0.1</release>
+        <api>3.0.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>stable</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2008-12-15</date>
+      <license>MIT</license>
+      <notes>
+        * fabien: fixed login method when called from an Ajax request
+      </notes>
+    </release>
+   <release>
+      <version>
         <release>3.0.0</release>
         <api>3.0.0</api>
       </version>
