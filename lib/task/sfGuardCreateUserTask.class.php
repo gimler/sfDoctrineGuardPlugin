@@ -43,7 +43,7 @@ class sfGuardCreateUserTask extends sfDoctrineBaseTask
     $this->detailedDescription = <<<EOF
 The [guard:create-user|INFO] task creates a user:
 
-  [./symfony guard:create-user frontend fabien pa\$\$word|INFO]
+  [./symfony guard:create-user frontend fabien password|INFO]
 EOF;
   }
 
