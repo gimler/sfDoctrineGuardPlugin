@@ -12,6 +12,7 @@ class BasesfGuardUserAdminForm extends BasesfGuardUserForm
   {
     unset(
       $this['last_login'],
+      $this['updated_at'],
       $this['created_at'],
       $this['updated_at'],
       $this['salt'],
