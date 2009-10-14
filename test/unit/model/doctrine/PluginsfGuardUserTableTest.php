@@ -5,7 +5,7 @@
  */
 include dirname(__FILE__).'/../../../../../../test/bootstrap/unit.php';
 
-$t = new lime_test(null);
+$t = new lime_test(7);
 
 $databaseManager = new sfDatabaseManager($configuration);
 $table = Doctrine::getTable('sfGuardUser');
@@ -32,6 +32,7 @@ $t->is(PluginsfGuardUserTable::retrieveByUsername('inactive_user'), null, '::ret
 $t->isa_ok(PluginsfGuardUserTable::retrieveByUsername('inactive_user', false), 'sfGuardUser', '::retrieveByUsername() returns an inactive user when second parameter is false');
 $t->isa_ok(PluginsfGuardUserTable::retrieveByUsername('active_user'), 'sfGuardUser', '::retrieveByUsername() returns an active user');
 $t->is(PluginsfGuardUserTable::retrieveByUsername('active_user', false), null, '::retrieveByUsername() returns "null" if user is active and second parameter is false');
+$t->isa_ok($table->retrieveByUsername('active_user'), 'sfGuardUser', '::retrieveByUsername() can be called non-statically');
 
 try
 {
