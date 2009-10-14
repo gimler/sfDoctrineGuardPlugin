@@ -93,18 +93,17 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
     if ($remember)
     {
       $expiration_age = sfConfig::get('app_sf_guard_plugin_remember_key_expiration_age', 15 * 24 * 3600);
+
       // remove old keys
-      Doctrine_Query::create()
+      Doctrine::getTable('sfGuardRememberKey')->createQuery()
         ->delete()
-        ->from('sfGuardRememberKey k')
         ->where('created_at < ?', date('Y-m-d H:i:s', time() - $expiration_age))
         ->execute();
 
       // remove other keys from this user
-      Doctrine_Query::create()
+      Doctrine::getTable('sfGuardRememberKey')->createQuery()
         ->delete()
-        ->from('sfGuardRememberKey k')
-        ->where('k.user_id = ?', $user->getId())
+        ->where('user_id = ?', $user->getId())
         ->execute();
 
       // generate new keys
