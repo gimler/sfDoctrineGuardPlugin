@@ -1,4 +1,4 @@
-# sfGuardDoctrine plugin (for symfony 1.2) #
+# sfGuardDoctrine plugin (for symfony 1.3) #
 
 The `sfDoctrineGuardPlugin` is a symfony plugin that provides authentication and
 authorization features above the standard security feature of symfony.
@@ -9,10 +9,29 @@ a configurable plugin.
 
 ## Installation ##
 
-  * Install the plugin
+  * Install the plugin (via a package)
 
         symfony plugin:install sfDoctrineGuardPlugin
-    
+
+  * Install the plugin (via a Subversion checkout)
+  
+        svn co http//svn.symfony-project.com/plugins/sfDoctrineGuardPlugin/trunk plugins/sfDoctrineGuardPlugin
+
+  * Activate the plugin in the `config/ProjectConfiguration.class.php`
+  
+        [php]
+        class ProjectConfiguration extends sfProjectConfiguration
+        {
+          public function setup()
+          {
+            $this->enablePlugins(array(
+              'sfDoctrinePlugin', 
+              'sfDoctrineGuardPlugin',
+              '...'
+            ));
+          }
+        }
+
   * Rebuild your model
 
         symfony doctrine:build-model
@@ -114,7 +133,7 @@ To secure a symfony application:
   * Secure some modules or your entire application in `security.yml`
 
         default:
-          is_secure: on
+          is_secure: true
 
   * You're done. Now, if you try to access a secure page, you will be redirected
     to the login page.
@@ -206,7 +225,7 @@ administrator bypasses all credential checks.
 The super administrator flag cannot be set on the web, you must set the flag
 directly in the database or use the pake task:
 
-    symfony promote-super-admin admin
+    symfony guard:promote admin
 
 ## Validators ##
 

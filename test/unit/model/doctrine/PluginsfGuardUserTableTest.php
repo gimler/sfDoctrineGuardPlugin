@@ -11,7 +11,7 @@ $databaseManager = new sfDatabaseManager($configuration);
 $table = Doctrine::getTable('sfGuardUser');
 
 // ::retrieveByUsername()
-$t->diag('::retrieveByUsername()');
+$t->diag('->retrieveByUsername()');
 
 $table->createQuery()->delete()->execute();
 
@@ -27,20 +27,20 @@ $activeUser->password = 'password';
 $activeUser->is_active = true;
 $activeUser->save();
 
-$t->is(PluginsfGuardUserTable::retrieveByUsername('invalid'), null, '::retrieveByUsername() returns "null" if username is invalid');
-$t->is(PluginsfGuardUserTable::retrieveByUsername('inactive_user'), null, '::retrieveByUsername() returns "null" if user is inactive');
-$t->isa_ok(PluginsfGuardUserTable::retrieveByUsername('inactive_user', false), 'sfGuardUser', '::retrieveByUsername() returns an inactive user when second parameter is false');
-$t->isa_ok(PluginsfGuardUserTable::retrieveByUsername('active_user'), 'sfGuardUser', '::retrieveByUsername() returns an active user');
-$t->is(PluginsfGuardUserTable::retrieveByUsername('active_user', false), null, '::retrieveByUsername() returns "null" if user is active and second parameter is false');
-$t->isa_ok($table->retrieveByUsername('active_user'), 'sfGuardUser', '::retrieveByUsername() can be called non-statically');
+$t->is($table->retrieveByUsername('invalid'), null, '->retrieveByUsername() returns "null" if username is invalid');
+$t->is($table->retrieveByUsername('inactive_user'), null, '->retrieveByUsername() returns "null" if user is inactive');
+$t->isa_ok($table->retrieveByUsername('inactive_user', false), 'sfGuardUser', '->retrieveByUsername() returns an inactive user when second parameter is false');
+$t->isa_ok($table->retrieveByUsername('active_user'), 'sfGuardUser', '->retrieveByUsername() returns an active user');
+$t->is($table->retrieveByUsername('active_user', false), null, '->retrieveByUsername() returns "null" if user is active and second parameter is false');
+$t->isa_ok($table->retrieveByUsername('active_user'), 'sfGuardUser', '->retrieveByUsername() can be called non-statically');
 
 try
 {
-  PluginsfGuardUserTable::retrieveByUsername(null);
-  $t->pass('::retrieveByUsername() does not throw an exception if username is null');
+  $table->retrieveByUsername(null);
+  $t->pass('->retrieveByUsername() does not throw an exception if username is null');
 }
 catch (Exception $e)
 {
   $t->diag($e->getMessage());
-  $t->fail('::retrieveByUsername() does not throw an exception if username is null');
+  $t->fail('->retrieveByUsername() does not throw an exception if username is null');
 }

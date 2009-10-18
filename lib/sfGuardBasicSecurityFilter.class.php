@@ -20,6 +20,11 @@
  */
 class sfGuardBasicSecurityFilter extends sfBasicSecurityFilter
 {
+  /**
+   * Executes the filter chain.
+   *
+   * @param sfFilterChain $filterChain
+   */
   public function execute($filterChain)
   {
     $cookieName = sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember');

@@ -27,7 +27,9 @@
 class sfGuardRememberMeFilter extends sfFilter
 {
   /**
-   * @see sfFilter
+   * Executes the filter chain.
+   *
+   * @param sfFilterChain $filterChain
    */
   public function execute($filterChain)
   {
