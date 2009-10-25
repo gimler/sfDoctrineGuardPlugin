@@ -16,7 +16,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */
-class sfGuardAddPermissionTask extends sfDoctrineBaseTask
+class sfGuardAddPermissionTask extends sfBaseTask
 {
   /**
    * @see sfTask
@@ -31,7 +31,6 @@ class sfGuardAddPermissionTask extends sfDoctrineBaseTask
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', null),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
     ));
 
     $this->namespace = 'guard';
