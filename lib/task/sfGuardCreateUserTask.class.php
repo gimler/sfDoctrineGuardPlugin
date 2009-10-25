@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage task
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfGuardCreateUserTask.class.php 8109 2008-03-27 10:40:33Z fabien $
+ * @version    SVN: $Id$
  */
 class sfGuardCreateUserTask extends sfBaseTask
 {

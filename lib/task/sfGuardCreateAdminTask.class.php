@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage task
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfGuardCreateAdminTask.class.php 8637 2008-04-27 10:24:36Z nicolas $
+ * @version    SVN: $Id$
  */
 class sfGuardPromoteSuperAdminTask extends sfBaseTask
 {
