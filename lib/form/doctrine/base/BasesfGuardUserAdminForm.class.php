@@ -3,12 +3,17 @@
 /**
  * BasesfGuardUserAdminForm
  *
- * @package form
- * @subpackage sf_guard_user
+ * @package    sfDoctrineGuardPlugin
+ * @subpackage form
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id$
  */
 class BasesfGuardUserAdminForm extends BasesfGuardUserForm
 {
-  public function configure()
+  /**
+   * @see sfForm
+   */
+  public function setup()
   {
     unset(
       $this['last_login'],

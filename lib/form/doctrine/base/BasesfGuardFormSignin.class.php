@@ -1,11 +1,20 @@
 <?php
 
+/**
+ * BasesfGuardFormSignin
+ *
+ * @package    sfDoctrineGuardPlugin
+ * @subpackage form
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id$
+ */
 class BasesfGuardFormSignin extends BaseForm
 {
+  /**
+   * @see sfForm
+   */
   public function setup()
   {
-    parent::setup();
-
     $this->setWidgets(array(
       'username' => new sfWidgetFormInputText(),
       'password' => new sfWidgetFormInputPassword(array('type' => 'password')),

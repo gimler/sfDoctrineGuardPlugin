@@ -3,16 +3,22 @@
 /**
  * PluginsfGuardPermission form.
  *
- * @package    form
- * @subpackage sfGuardPermission
+ * @package    sfDoctrineGuardPlugin
+ * @subpackage form
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */
 abstract class PluginsfGuardPermissionForm extends BasesfGuardPermissionForm
 {
-  public function configure()
+  /**
+   * @see sfForm
+   */
+  public function setupInheritance()
   {
-    unset($this['sf_guard_user_permission_list']);
+    parent::setupInheritance();
 
-    $this->widgetSchema['sf_guard_group_permission_list']->setLabel('Groups');
+    unset($this['users_list']);
+
+    $this->widgetSchema['groups_list']->setLabel('Groups');
   }
 }
