@@ -1,8 +1,13 @@
 <?php
 
-class PluginsfGuardUserGroupTable extends Doctrine_Table
+/**
+ * User group reference table.
+ *
+ * @package    sfDoctrineGuardPlugin
+ * @subpackage model
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id$
+ */
+abstract class PluginsfGuardUserGroupTable extends Doctrine_Table
 {
-
-
-
 }

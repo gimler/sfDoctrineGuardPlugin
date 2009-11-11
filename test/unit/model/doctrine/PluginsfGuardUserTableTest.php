@@ -5,12 +5,12 @@
  */
 include dirname(__FILE__).'/../../../../../../test/bootstrap/unit.php';
 
-$t = new lime_test(7);
+$t = new lime_test(8);
 
 $databaseManager = new sfDatabaseManager($configuration);
 $table = Doctrine::getTable('sfGuardUser');
 
-// ::retrieveByUsername()
+// ->retrieveByUsername()
 $t->diag('->retrieveByUsername()');
 
 $table->createQuery()->delete()->execute();
@@ -44,3 +44,5 @@ catch (Exception $e)
   $t->diag($e->getMessage());
   $t->fail('->retrieveByUsername() does not throw an exception if username is null');
 }
+
+$t->isa_ok(@PluginsfGuardUserTable::retrieveByUsername('active_user'), 'sfGuardUser', '->retrieveByUsername() can be called statically (BC)');

@@ -1,16 +1,18 @@
 <?php
 
+/**
+ * User group reference model.
+ *
+ * @package    sfDoctrineGuardPlugin
+ * @subpackage model
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id$
+ */
 abstract class PluginsfGuardUserGroup extends BasesfGuardUserGroup
 {
-  /**
-   * Saves the current sfGuardUserGroup object in database.
-   *
-   * @param Doctrine_Connection $conn A Doctrine_Connection object
-   */
-  public function save(Doctrine_Connection $conn = null)
+  public function postSave($event)
   {
-    parent::save($conn);
-
+    parent::postSave($event);
     $this->getsfGuardUser()->reloadGroupsAndPermissions();
   }
 }

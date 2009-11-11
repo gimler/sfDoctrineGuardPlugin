@@ -1,19 +1,30 @@
 <?php
 
-class PluginsfGuardUserTable extends Doctrine_Table
+/**
+ * User table.
+ *
+ * @package    sfDoctrineGuardPlugin
+ * @subpackage model
+ * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @version    SVN: $Id$
+ */
+abstract class PluginsfGuardUserTable extends Doctrine_Table
 {
   /**
-   * Retrieves a sfGuardUser object from his username and is_active flag.
+   * Retrieves a sfGuardUser object by username and is_active flag.
    *
-   * @param string $username The username
-   * @param boolean $isActive The user's status
+   * @param  string  $username The username
+   * @param  boolean $isActive The user's status
+   *
    * @return sfGuardUser
    */
   public function retrieveByUsername($username, $isActive = true)
   {
-    return Doctrine::getTable('sfGuardUser')->createQuery('u')
-            ->where('u.username = ?', $username)
-            ->addWhere('u.is_active = ?', $isActive)
-            ->fetchOne();
+    $query = Doctrine::getTable('sfGuardUser')->createQuery('u')
+      ->where('u.username = ?', $username)
+      ->addWhere('u.is_active = ?', $isActive)
+    ;
+
+    return $query->fetchOne();
   }
 }
