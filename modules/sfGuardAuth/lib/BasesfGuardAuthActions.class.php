@@ -77,12 +77,12 @@ class BasesfGuardAuthActions extends sfActions
     $this->redirect('' != $signoutUrl ? $signoutUrl : '@homepage');
   }
 
-  public function executeSecure()
+  public function executeSecure($request)
   {
     $this->getResponse()->setStatusCode(403);
   }
 
-  public function executePassword()
+  public function executePassword($request)
   {
     throw new sfException('This method is not yet implemented.');
   }
