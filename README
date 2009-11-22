@@ -12,7 +12,13 @@ a configurable plugin.
   * Install the plugin
 
         symfony plugin:install sfDoctrineGuardPlugin
-    
+		
+  * Note: Check your config/ProjectConfiguration.class.php . You might need to modify 
+your file if there is a "enablePlugins" directive in your setup method: If is just a 
+"enableAllPluginsExcept" then, you can jump to next item of the list.
+
+        $this->enablePlugins(array('sfDoctrinePlugin', 'sfDoctrineGuardPlugin'));
+		    
   * Rebuild your model
 
         symfony doctrine:build-model
