@@ -15,6 +15,7 @@ class BasesfGuardUserAdminForm extends BasesfGuardUserForm
    */
   public function setup()
   {
+    parent::setup();
     unset(
       $this['last_login'],
       $this['created_at'],
