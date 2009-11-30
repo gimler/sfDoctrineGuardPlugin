@@ -17,18 +17,4 @@
  */
 class BasesfGuardUserActions extends autosfGuardUserActions
 {
-  public function validateEdit()
-  {
-    if ($this->getRequest()->getMethod() == sfRequest::POST && !$this->getRequestParameter('id'))
-    {
-      if ($this->getRequestParameter('sf_guard_user[password]') == '')
-      {
-        $this->getRequest()->setError('sf_guard_user{password}', $this->getContext()->getI18N()->__('Password is mandatory'));
-
-        return false;
-      }
-    }
-
-    return true;
-  }
 }
