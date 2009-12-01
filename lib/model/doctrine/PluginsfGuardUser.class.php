@@ -22,7 +22,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
    */
   public function __toString()
   {
-    return $this->getUsername();
+    return (string) $this->getUsername();
   }
 
   /**
