@@ -17,8 +17,9 @@ abstract class PluginsfGuardPermissionForm extends BasesfGuardPermissionForm
   {
     parent::setupInheritance();
 
-    unset($this['users_list']);
+    unset($this['created_at'], $this['updated_at']);
 
     $this->widgetSchema['groups_list']->setLabel('Groups');
+    $this->widgetSchema['users_list']->setLabel('Users');
   }
 }

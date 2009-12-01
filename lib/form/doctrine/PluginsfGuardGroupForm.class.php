@@ -18,11 +18,11 @@ abstract class PluginsfGuardGroupForm extends BasesfGuardGroupForm
     parent::setupInheritance();
 
     unset(
-      $this['sf_guard_user_group_list'],
       $this['created_at'],
       $this['updated_at']
     );
 
+    $this->widgetSchema['users_list']->setLabel('Users');
     $this->widgetSchema['permissions_list']->setLabel('Permissions');
   }
 }

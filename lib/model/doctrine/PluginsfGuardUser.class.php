@@ -11,10 +11,9 @@
 abstract class PluginsfGuardUser extends BasesfGuardUser
 {
   protected
-    $profile        = null,
-    $groups         = null,
-    $permissions    = null,
-    $allPermissions = null;
+    $_groups         = null,
+    $_permissions    = null,
+    $_allPermissions = null;
 
   /**
    * Returns the string representation of the object.
@@ -160,8 +159,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   public function hasGroup($name)
   {
     $this->loadGroupsAndPermissions();
-
-    return isset($this->groups[$name]);
+    return isset($this->_groups[$name]);
   }
 
   /**
@@ -172,8 +170,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   public function getGroupNames()
   {
     $this->loadGroupsAndPermissions();
-
-    return array_keys($this->groups);
+    return array_keys($this->_groups);
   }
 
   /**
@@ -184,8 +181,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   public function hasPermission($name)
   {
     $this->loadGroupsAndPermissions();
-
-    return isset($this->allPermissions[$name]);
+    return isset($this->_allPermissions[$name]);
   }
 
   /**
@@ -196,7 +192,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   public function getPermissionNames()
   {
     $this->loadGroupsAndPermissions();
-    return array_keys($this->allPermissions);
+    return array_keys($this->_allPermissions);
   }
 
   /**
@@ -207,25 +203,25 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
    */
   public function getAllPermissions()
   {
-    if (!$this->allPermissions)
+    if (!$this->_allPermissions)
     {
-      $this->allPermissions = array();
+      $this->_allPermissions = array();
       $permissions = $this->getPermissions();
       foreach ($permissions as $permission)
       {
-        $this->allPermissions[$permission->getName()] = $permission;
+        $this->_allPermissions[$permission->getName()] = $permission;
       }
 
       foreach ($this->getGroups() as $group)
       {
         foreach ($group->getPermissions() as $permission)
         {
-          $this->allPermissions[$permission->getName()] = $permission;
+          $this->_allPermissions[$permission->getName()] = $permission;
         }
       }
     }
 
-    return $this->allPermissions;
+    return $this->_allPermissions;
   }
 
   /**
@@ -246,56 +242,33 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   {
     $this->getAllPermissions();
     
-    if (!$this->permissions)
+    if (!$this->_permissions)
     {
       $permissions = $this->getPermissions();
       foreach ($permissions as $permission)
       {
-        $this->permissions[$permission->getName()] = $permission;
+        $this->_permissions[$permission->getName()] = $permission;
       }
     }
     
-    if (!$this->groups)
+    if (!$this->_groups)
     {
       $groups = $this->getGroups();
       foreach ($groups as $group)
       {
-        $this->groups[$group->getName()] = $group;
+        $this->_groups[$group->getName()] = $group;
       }
     }
   }
 
   /**
    * Reloads the user's groups and permissions.
-   *
    */
   public function reloadGroupsAndPermissions()
   {
-    $this->groups         = null;
-    $this->permissions    = null;
-    $this->allPermissions = null;
-  }
-
-  /**
-   * Deletes the sfGuardUser and its associated profile object if exists.
-   *
-   * @param Doctrine_Connection $conn A Doctrine_Connection object
-   * @return int Number of affected rows
-   */
-  public function delete(Doctrine_Connection $conn = null)
-  {
-    try
-    {
-      if ($profile = $this->getProfile())
-      {
-        $profile->delete();
-      }
-    }
-    catch (Exception $e)
-    {
-    }
-
-    return parent::delete($conn);
+    $this->_groups         = null;
+    $this->_permissions    = null;
+    $this->_allPermissions = null;
   }
 
   /**
