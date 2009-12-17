@@ -13,6 +13,6 @@ abstract class PluginsfGuardUserGroup extends BasesfGuardUserGroup
   public function postSave($event)
   {
     parent::postSave($event);
-    $this->getsfGuardUser()->reloadGroupsAndPermissions();
+    $this->getUser()->reloadGroupsAndPermissions();
   }
 }

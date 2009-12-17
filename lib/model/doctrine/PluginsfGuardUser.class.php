@@ -16,13 +16,23 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     $_allPermissions = null;
 
   /**
-   * Returns the string representation of the object.
+   * Returns the string representation of the object: "Full Name (username)"
    *
    * @return string
    */
   public function __toString()
   {
-    return (string) $this->getUsername();
+    return (string) $this->getName().' ('.$this->getUsername().')';
+  }
+
+  /**
+   * Returns the first and last name of the user concatenated together
+   *
+   * @return string $name
+   */
+  public function getName()
+  {
+    return trim($this->getFirstName().' '.$this->getLastName());
   }
 
   /**
@@ -54,16 +64,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     }
     $this->setAlgorithm($algorithmAsStr);
 
-    parent::_set('password', call_user_func_array($algorithm, array($salt.$password)));
-  }
-
-  /**
-   * Sets the second password.
-   *
-   * @param string $password
-   */
-  public function setPasswordBis($password)
-  {
+    $this->_set('password', call_user_func_array($algorithm, array($salt.$password)));
   }
 
   /**
@@ -115,7 +116,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
    */
   public function addGroupByName($name, $con = null)
   {
-    $group = Doctrine::getTable('sfGuardGroup')->findOneByName($name);
+    $group = Doctrine_Core::getTable('sfGuardGroup')->findOneByName($name);
     if (!$group)
     {
       throw new sfException(sprintf('The group "%s" does not exist.', $name));
@@ -137,7 +138,7 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
    */
   public function addPermissionByName($name, $con = null)
   {
-    $permission = Doctrine::getTable('sfGuardPermission')->findOneByName($name);
+    $permission = Doctrine_Core::getTable('sfGuardPermission')->findOneByName($name);
     if (!$permission)
     {
       throw new sfException(sprintf('The permission "%s" does not exist.', $name));
