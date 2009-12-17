@@ -1,4 +1,4 @@
-<?php use_helper('I18n') ?>
+<?php use_helper('I18N') ?>
 <h2><?php echo __('Forgot your password?', null, 'sf_guard') ?></h2>
 
 <p>
