@@ -136,7 +136,7 @@ sfGuardUserGroup:
       local: user_id
       onDelete: CASCADE
     Group:
-      class: sfGuardUser
+      class: sfGuardGroup
       local: group_id
       onDelete: CASCADE
 
