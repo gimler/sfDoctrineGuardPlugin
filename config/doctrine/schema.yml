@@ -149,9 +149,7 @@ sfGuardRememberKey:
   columns:
     user_id: integer
     remember_key: string(32)
-    ip_address:
-      type: string(50)
-      primary: true
+    ip_address: string(50)
   relations:
     User:
       class: sfGuardUser
