@@ -154,7 +154,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
       // save key
       $rk = new sfGuardRememberKey();
       $rk->setRememberKey($key);
-      $rk->setsfGuardUser($user);
+      $rk->setUser($user);
       $rk->setIpAddress($_SERVER['REMOTE_ADDR']);
       $rk->save($con);
 

@@ -123,8 +123,8 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     }
 
     $ug = new sfGuardUserGroup();
-    $ug->setsfGuardUser($this);
-    $ug->setsfGuardGroup($group);
+    $ug->setUser($this);
+    $ug->setGroup($group);
 
     $ug->save($con);
   }
@@ -145,8 +145,8 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
     }
 
     $up = new sfGuardUserPermission();
-    $up->setsfGuardUser($this);
-    $up->setsfGuardPermission($permission);
+    $up->setUser($this);
+    $up->setPermission($permission);
 
     $up->save($con);
   }
