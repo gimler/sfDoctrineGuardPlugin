@@ -13,7 +13,10 @@ $table = Doctrine_Core::getTable('sfGuardUser');
 // ->retrieveByUsername()
 $t->diag('->retrieveByUsername()');
 
-$table->createQuery()->delete()->execute();
+$table->createQuery()
+  ->delete()
+  ->where('username = ? OR username = ?', array('inactive_user', 'active_user'))
+  ->execute();
 
 $inactiveUser = new sfGuardUser();
 $inactiveUser->email_address = 'email@test.com';
