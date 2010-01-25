@@ -49,7 +49,7 @@ class sfGuardRememberMeFilter extends sfFilter
 
       if ($q->count())
       {
-        $this->context->getUser()->signIn($q->fetchOne()->sfGuardUser);
+        $this->context->getUser()->signIn($q->fetchOne()->User);
       }
     }
 
