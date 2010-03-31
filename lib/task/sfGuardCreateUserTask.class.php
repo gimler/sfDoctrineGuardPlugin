@@ -45,7 +45,7 @@ class sfGuardCreateUserTask extends sfBaseTask
     $this->detailedDescription = <<<EOF
 The [guard:create-user|INFO] task creates a user:
 
-  [./symfony guard:create-user fabien password|INFO]
+  [./symfony guard:create-user mail@example.com fabien password Fabien POTENCIER|INFO]
 EOF;
   }
 
