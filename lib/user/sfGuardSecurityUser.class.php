@@ -172,14 +172,7 @@ class sfGuardSecurityUser extends sfBasicSecurityUser
    */
   protected function generateRandomKey($len = 20)
   {
-    $string = '';
-    $pool   = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    for ($i = 1; $i <= $len; $i++)
-    {
-      $string .= substr($pool, rand(0, 61), 1);
-    }
-
-    return md5($string);
+    return base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
   }
 
   /**
