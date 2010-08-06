@@ -41,7 +41,7 @@ class sfGuardValidatorUser extends sfValidatorBase
        {
            $user = call_user_func_array($callable, array($username));
        } else {
-           $user = $this->getTable()->retrieveByUsername($username);
+           $user = $this->getTable()->$method($username);
        }
         // user exists?
        if($user)

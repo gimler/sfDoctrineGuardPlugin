@@ -11,6 +11,8 @@ class MockUser
 {
   public
     $active   = true,
+    $username = 'mock',
+    $emailAddress = 'mock@example.com',
     $password = 'correct';
 
   public function getIsActive()
@@ -30,12 +32,12 @@ class MockTable
 
   public function retrieveByUsername()
   {
-    return self::$user;
+    return self::$user->username == $username ? self::$user : null;
   }
 
-  public function retrieveByUsernameOrEmailAddress()
+  public function retrieveByUsernameOrEmailAddress($username)
   {
-    return self::$user;
+    return $this->retrieveByUsername($username) || self::$user->emailAddress == $username ? self::$user : null;
   }
 }
 
@@ -63,6 +65,19 @@ MockTable::$user = $activeUser;
 try
 {
   $values = $validator->clean(array('username' => 'mock', 'password' => 'correct'));
+
+  $t->pass('->clean() does not throw an error if an active user is found');
+  $t->isa_ok($values['user'], 'MockUser', '->clean() adds the user object to the cleaned values');
+}
+catch (sfValidatorErrorSchema $error)
+{
+  $t->fail('->clean() does not throw an error if an active user is found');
+  $t->skip();
+}
+
+try
+{
+  $values = $validator->clean(array('username' => 'mock@example.com', 'password' => 'correct'));
 
   $t->pass('->clean() does not throw an error if an active user is found');
   $t->isa_ok($values['user'], 'MockUser', '->clean() adds the user object to the cleaned values');
@@ -113,3 +128,5 @@ catch (sfValidatorError $error)
 {
   $t->pass('->clean() throws a global error if the "throw_global_error" option is true');
 }
+
+
