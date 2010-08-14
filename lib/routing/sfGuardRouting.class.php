@@ -29,7 +29,7 @@ class sfGuardRouting
 
     // preprend our routes
     $r->prependRoute('sf_guard_signin', new sfRoute('/guard/login', array('module' => 'sfGuardAuth', 'action' => 'signin'))); 
-   	$r->prependRoute('sf_guard_signout', new sfRoute('/guard/logout', array('module' => 'sfGuardAuth', 'action' => 'signout'))); 
+    $r->prependRoute('sf_guard_signout', new sfRoute('/guard/logout', array('module' => 'sfGuardAuth', 'action' => 'signout'))); 
   }
 
   static public function addRouteForForgotPassword(sfEvent $event)

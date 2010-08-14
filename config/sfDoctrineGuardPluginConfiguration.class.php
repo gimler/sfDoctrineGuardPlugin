@@ -24,16 +24,20 @@ class sfDoctrineGuardPluginConfiguration extends sfPluginConfiguration
    */
   public function initialize()
   {
-    if (sfConfig::get('app_sf_guard_plugin_routes_register', true) && in_array('sfGuardAuth', sfConfig::get('sf_enabled_modules', array())))
+    if (sfConfig::get('app_sf_guard_plugin_routes_register', true))
     {
-      $this->dispatcher->connect('routing.load_configuration', array('sfGuardRouting', 'listenToRoutingLoadConfigurationEvent'));
-    }
-
-    foreach (array('sfGuardUser', 'sfGuardGroup', 'sfGuardPermission', 'sfGuardRegister', 'sfGuardForgotPassword') as $module)
-    {
-      if (in_array($module, sfConfig::get('sf_enabled_modules', array())))
+      $enabledModules = sfConfig::get('sf_enabled_modules', array());
+      if (in_array('sfGuardAuth', $enabledModules))
       {
-        $this->dispatcher->connect('routing.load_configuration', array('sfGuardRouting', 'addRouteFor'.str_replace('sfGuard', '', $module)));
+        $this->dispatcher->connect('routing.load_configuration', array('sfGuardRouting', 'listenToRoutingLoadConfigurationEvent'));
+      }
+
+      foreach (array('sfGuardUser', 'sfGuardGroup', 'sfGuardPermission', 'sfGuardRegister', 'sfGuardForgotPassword') as $module)
+      {
+        if (in_array($module, $enabledModules))
+        {
+          $this->dispatcher->connect('routing.load_configuration', array('sfGuardRouting', 'addRouteFor'.str_replace('sfGuard', '', $module)));
+        }
       }
     }
   }
