@@ -17,6 +17,11 @@ class BasesfGuardRegisterActions extends sfActions
       $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid())
       {
+        $event = new sfEvent($this, 'user.filter_register');
+        $this->form = $this->dispatcher
+          ->filter($event, $this->form)
+          ->getReturnValue();
+
         $user = $this->form->save();
         $this->getUser()->signIn($user);
 
