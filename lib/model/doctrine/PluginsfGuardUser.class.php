@@ -197,12 +197,12 @@ abstract class PluginsfGuardUser extends BasesfGuardUser
   /**
    * Returns an array of all user's permissions names.
    *
+   * @deprecated use getAllPermissionNames instate
    * @return array
    */
   public function getPermissionNames()
   {
-    $this->loadGroupsAndPermissions();
-    return array_keys($this->_allPermissions);
+    return $this->getAllPermissionNames();
   }
 
   /**
