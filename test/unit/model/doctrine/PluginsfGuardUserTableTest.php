@@ -8,14 +8,11 @@ include dirname(__FILE__).'/../../../../../../test/bootstrap/unit.php';
 $t = new lime_test(8);
 
 $databaseManager = new sfDatabaseManager($configuration);
+
 $table = Doctrine_Core::getTable('sfGuardUser');
-
-// ->retrieveByUsername()
-$t->diag('->retrieveByUsername()');
-
 $table->createQuery()
   ->delete()
-  ->where('username = ? OR username = ?', array('inactive_user', 'active_user'))
+  ->whereIn('username', array('inactive_user', 'active_user'))
   ->execute();
 
 $inactiveUser = new sfGuardUser();
@@ -31,6 +28,9 @@ $activeUser->username = 'active_user';
 $activeUser->password = 'password';
 $activeUser->is_active = true;
 $activeUser->save();
+
+// ->retrieveByUsername()
+$t->diag('->retrieveByUsername()');
 
 $t->is($table->retrieveByUsername('invalid'), null, '->retrieveByUsername() returns "null" if username is invalid');
 $t->is($table->retrieveByUsername('inactive_user'), null, '->retrieveByUsername() returns "null" if user is inactive');
